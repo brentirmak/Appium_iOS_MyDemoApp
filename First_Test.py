@@ -14,35 +14,6 @@ from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.pointer_input import PointerInput
 
 
-APPIUM_SERVER_URL = "http://127.0.0.1:4723"
-
-CAPABILITIES = {
-    "platformName": "ios",
-    "appium:automationName": "xcuitest",
-    "appium:deviceName": "iPhone 17 Pro",
-    "appium:platformVersion": "26.5",
-    "appium:udid": "89681D14-673F-445A-80AA-351832829080",
-    "appium:noReset": True,
-    "appium:fullReset": False,
-    "appium:printPageSourceOnFindFailure": False,
-    "appium:app": "/Users/seiwa/Desktop/my-demo-app-ios-main/build/Build/Products/Debug-iphonesimulator/My Demo App.app",
-    "appium:waitForQuiescence": False,
-    "appium:includeSafariInWebviews": True,
-    "appium:newCommandTimeout": 3600,
-    "appium:connectHardwareKeyboard": True,
-}
-
-
-@pytest.fixture(scope="class")
-def driver():
-    """Set up and tear down the Appium driver for the test session."""
-    options = AppiumOptions()
-    options.load_capabilities(CAPABILITIES)
-    _driver = webdriver.Remote(APPIUM_SERVER_URL, options=options)
-    yield _driver
-    _driver.quit()
-
-
 class TestDemoApp:
 
     def test_open_menu(self, driver):
