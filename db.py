@@ -1,5 +1,6 @@
 import mysql.connector
 import os
+import datetime
 from mysql.connector import Error
 
 class MySQLLogger:
@@ -38,11 +39,11 @@ class MySQLLogger:
         self.connect()
 
         query = """
-            INSERT INTO test_results (test_name, status, duration, error_message)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO appium_mydemoapp (test_name, status, duration, error_message, executed_at)
+            VALUES (%s, %s, %s, %s, %s)
         """
 
-        self.cursor.execute(query, (test_name, status, duration, error_message))
+        self.cursor.execute(query, (test_name, status, duration, error_message, datetime.datetime.now()))
         self.conn.commit()
 
     def close(self):
