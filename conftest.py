@@ -89,12 +89,16 @@ def pytest_runtest_makereport(item, call):
             status = "SKIPPED"
             error_message = None
 
-        # Retrieve logger fixture
-        logger = item.funcargs.get("db_logger")
+        # SAFE retrieval of logger fixture
+        logger = item.funcargs.get("db_logger", None)
 
-        logger.log_result(
-            test_name=item.name,
-            status=status,
-            duration=duration,
-            error_message=error_message
-        )
+        if logger:
+            logger.log_result(
+                test_name=item.name,
+                status=status,
+                duration=duration,
+                error_message=error_message
+            )
+            
+def pytest_configure(config):
+    config.addinivalue_line("usefixtures", "db_logger")
