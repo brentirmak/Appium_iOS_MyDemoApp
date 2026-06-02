@@ -1,41 +1,48 @@
-# db.py
-import os
 import mysql.connector
+import os
 from mysql.connector import Error
 
 class MySQLLogger:
-    def __init__(self):
+    def __init__(self, host, user, password, database):
+        self.host = host
+        self.user = user
+        self.password = password
+        self.database = database
+
         self.conn = None
         self.cursor = None
 
     def connect(self):
         """Create the connection only when needed."""
         if self.conn is None:
-            host = os.getenv("MYSQL_URL")
-            user = os.getenv("MYSQL_USERNAME")
-            password = os.getenv("MYSQL_PASSWORD")
-
-            print(f"[MySQLLogger] Connecting to {host} as {user}")
+            print(f"[MySQLLogger] Connecting to {self.host} as {self.user}")
 
             try:
                 self.conn = mysql.connector.connect(
-                    host=host,
-                    user=user,
-                    password=password
+                    host=self.host,
+                    user=self.user,
+                    password=self.password,
+                    database=self.database
                 )
                 self.cursor = self.conn.cursor()
                 print("[MySQLLogger] Connection established")
+
             except Error as e:
                 print(f"[MySQLLogger] Connection failed: {e}")
                 raise
 
         return self.conn
 
-    def log(self, message):
-        """Example logging method."""
+    def log_result(self, test_name, status, duration, error_message):
+        """Insert a test result into the database."""
         self.connect()
-        query = "INSERT INTO logs (message) VALUES (%s)"
-        self.cursor.execute(query, (message,))
+
+        query = """
+            INSERT INTO test_results (test_name, status, duration, error_message)
+            VALUES (%s, %s, %s, %s)
+        """
+
+        self.cursor.execute(query, (test_name, status, duration, error_message))
         self.conn.commit()
 
     def close(self):
