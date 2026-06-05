@@ -39,7 +39,7 @@ class MySQLLogger:
         self.connect()
 
         query = """
-            INSERT INTO appium_mydemoapp (test_name, status, duration, error_message, executed_at)
+            INSERT INTO appium_ios_mydemoapp (test_name, status, duration, error_message, executed_at)
             VALUES (%s, %s, %s, %s, %s)
         """
 
