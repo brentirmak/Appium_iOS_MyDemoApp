@@ -2,6 +2,7 @@ import pytest
 import time
 import os
 from dotenv import load_dotenv
+from pathlib import Path
 
 from appium import webdriver
 from appium.options.common.base import AppiumOptions
@@ -13,16 +14,22 @@ from selenium.webdriver.common.actions import interaction
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.pointer_input import PointerInput
 
-from db import MySQLLogger
+from utils.db import MySQLLogger
 
 # ---------------------------------------------------------
 # Load environment variables (.env locally, Jenkins env in CI)
 # ---------------------------------------------------------
-load_dotenv()
+load_dotenv(dotenv_path=Path(__file__).parent / ".env")
 
 MYSQL_HOST = os.getenv("MYSQL_URL")
 MYSQL_USER = os.getenv("MYSQL_USERNAME")
 MYSQL_PASS = os.getenv("MYSQL_PASSWORD")
+
+
+print("AFTER LOAD:")
+print("MYSQL_HOST =", os.getenv("MYSQL_URL"))
+print("MYSQL_USER =", os.getenv("MYSQL_USERNAME"))
+print("MYSQL_PASS =", os.getenv("MYSQL_PASSWORD"))
 
 APPIUM_SERVER_URL = "http://127.0.0.1:4723"
 
@@ -102,3 +109,18 @@ def pytest_runtest_makereport(item, call):
             
 def pytest_configure(config):
     config.addinivalue_line("usefixtures", "db_logger")
+
+
+@pytest.fixture
+def mysql_logger():
+    
+    logger = MySQLLogger(
+        host=os.getenv("MYSQL_URL"),
+        user=os.getenv("MYSQL_USERNAME"),
+        password=os.getenv("MYSQL_PASSWORD"),
+        database="appium"
+    )
+
+    yield logger
+
+    logger.close()
