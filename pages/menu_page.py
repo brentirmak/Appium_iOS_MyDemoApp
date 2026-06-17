@@ -14,8 +14,16 @@ class MenuPage(BasePage):
         '//XCUIElementTypeStaticText[@name="Webview"]'
     )
 
+    LOGIN_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//XCUIElementTypeButton[@name="LogOut-menu-item"]'
+    )
+
     def logout_visible(self):
         return self.is_visible(self.LOGOUT_MENU)
 
     def open_webview(self):
         self.click(self.WEBVIEW_MENU)
+
+    def click_login(self):
+        self.click(self.LOGIN_MENU_ITEM)

@@ -1,6 +1,7 @@
 from pages.home_page import HomePage
 from pages.menu_page import MenuPage
 from pages.webview_page import WebViewPage
+from pages.login_page import LoginPage
 
 from utils.transaction_logger import execute_transaction
 
@@ -15,6 +16,8 @@ class TestNavigation:
         home = HomePage(driver)
         menu = MenuPage(driver)
         webview = WebViewPage(driver)
+        login = LoginPage(driver)
+        
 
         execute_transaction(
             mysql_logger,
@@ -72,3 +75,33 @@ class TestNavigation:
                 )
             )
         )
+
+        execute_transaction(
+            mysql_logger,
+            "test_07_navigate_to_login_page",
+            menu.click_login
+        )
+
+        execute_transaction(
+            mysql_logger,
+            "test_08_login_header_visible",
+            lambda: (
+                login.header_visible()
+                or (_ for _ in ()).throw(
+                    AssertionError(
+                        "Login header not visible"
+                    )
+                )
+            )
+        )
+
+        execute_transaction(
+            mysql_logger,
+            "test_09_login",
+            lambda: (
+                login.enter_username("visual@example.com"),
+                login.enter_password("10203040"),
+                login.click_login_button(),
+                login.products_page_visible()               
+        )   
+)
