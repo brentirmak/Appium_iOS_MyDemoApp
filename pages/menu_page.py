@@ -19,6 +19,11 @@ class MenuPage(BasePage):
         '//XCUIElementTypeButton[@name="LogOut-menu-item"]'
     )
 
+    ABOUT_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//XCUIElementTypeStaticText[@name="About"]'
+    )
+
     def logout_visible(self):
         return self.is_visible(self.LOGOUT_MENU)
 
@@ -27,3 +32,6 @@ class MenuPage(BasePage):
 
     def click_login(self):
         self.click(self.LOGIN_MENU_ITEM)
+    
+    def click_about(self):
+        self.click(self.ABOUT_MENU_ITEM)

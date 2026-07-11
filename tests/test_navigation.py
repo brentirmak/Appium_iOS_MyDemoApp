@@ -2,6 +2,8 @@ from pages.home_page import HomePage
 from pages.menu_page import MenuPage
 from pages.webview_page import WebViewPage
 from pages.login_page import LoginPage
+from pages.about_page import AboutPage
+
 
 from utils.transaction_logger import execute_transaction
 
@@ -13,10 +15,12 @@ class TestNavigation:
             driver,
             mysql_logger):
 
+        # Sequence/execution order
         home = HomePage(driver)
         menu = MenuPage(driver)
         webview = WebViewPage(driver)
         login = LoginPage(driver)
+        about = AboutPage(driver)
         
 
         execute_transaction(
@@ -103,5 +107,16 @@ class TestNavigation:
                 login.enter_password("10203040"),
                 login.click_login_button(),
                 login.products_page_visible()               
-        )   
-)
+            )
+        )
+
+        execute_transaction(
+            mysql_logger,
+            "test_10_click_about_page",
+            lambda: (
+                home.open_menu(),
+                menu.click_about(),
+                about.header_visible()
+            )
+        )
+    
