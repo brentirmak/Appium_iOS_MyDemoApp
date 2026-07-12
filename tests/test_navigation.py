@@ -3,6 +3,8 @@ from pages.menu_page import MenuPage
 from pages.webview_page import WebViewPage
 from pages.login_page import LoginPage
 from pages.about_page import AboutPage
+from pages.products_page import ProductsPage
+from pages.greenbackpack_page import GreenBackpackPage
 
 
 from utils.transaction_logger import execute_transaction
@@ -21,14 +23,19 @@ class TestNavigation:
         webview = WebViewPage(driver)
         login = LoginPage(driver)
         about = AboutPage(driver)
+        product = ProductsPage(driver)
+        green_backpack = GreenBackpackPage(driver)
         
 
+        print("\nStarting test_01_open_menu transaction")
         execute_transaction(
             mysql_logger,
             "test_01_open_menu",
             home.open_menu
         )
+        print("Ended test_01_open_menu transaction")
 
+        print("\nStarting test_02_logout_menu_item_visible transaction")
         execute_transaction(
             mysql_logger,
             "test_02_logout_menu_item_visible",
@@ -41,12 +48,18 @@ class TestNavigation:
                 )
             )
         )
+        print("Ended test_02_logout_menu_item_visible transaction")
 
+        print("\nStarting test_03_navigate_to_webview transaction")
+        
         execute_transaction(
             mysql_logger,
             "test_03_navigate_to_webview",
             menu.open_webview
         )
+        print("Ended test_03_navigate_to_webview transaction")
+
+        print("\nStarting test_04_webview_url_input_visible transaction")
 
         execute_transaction(
             mysql_logger,
@@ -61,11 +74,19 @@ class TestNavigation:
             )
         )
 
+        print("Ended test_04_webview_url_input_visible transaction")
+
+        print("\nStarting test_05_navigate_back transaction")
+
         execute_transaction(
             mysql_logger,
             "test_05_navigate_back",
             webview.navigate_back
         )
+
+        print("Ended test_05_navigate_back transaction")
+
+        print("\nStarting test_06_home_logo_visible transaction")
 
         execute_transaction(
             mysql_logger,
@@ -80,11 +101,19 @@ class TestNavigation:
             )
         )
 
+        print("Ended test_06_home_logo_visible transaction")
+
+        print("\nStarting test_07_navigate_to_login_page transaction")
+
         execute_transaction(
             mysql_logger,
             "test_07_navigate_to_login_page",
             menu.click_login
         )
+
+        print("Ended test_07_navigate_to_login_page transaction")
+
+        print("\nStarting test_08_login_header_visible transaction")
 
         execute_transaction(
             mysql_logger,
@@ -99,6 +128,10 @@ class TestNavigation:
             )
         )
 
+        print("Ended test_08_login_header_visible transaction")
+
+        print("\nStarting test_09_login transaction")
+
         execute_transaction(
             mysql_logger,
             "test_09_login",
@@ -110,6 +143,10 @@ class TestNavigation:
             )
         )
 
+        print("Ended test_09_login transaction")
+
+        print("\nStarting test_10_click_about_page transaction")
+
         execute_transaction(
             mysql_logger,
             "test_10_click_about_page",
@@ -119,4 +156,20 @@ class TestNavigation:
                 about.header_visible()
             )
         )
+
+        print("Ended test_10_click_about_page transaction")
+
+        print("\nStarting test_11_click_green_backpack_item transaction")
+
+        execute_transaction(
+            mysql_logger,
+            "test_11_click_green_backpack_item",
+            lambda: (
+                home.click_catalog_icon(),
+                product.click_green_backpack_product(),
+                green_backpack.header_visible()
+            )
+        )
+
+        print("Ended test_11_click_green_backpack_item transaction")
     
