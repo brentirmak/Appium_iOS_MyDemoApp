@@ -15,7 +15,10 @@ class WebViewPage(BasePage):
     )
 
     def url_field_visible(self):
+        print("Will check that the URL field is visible")
         return self.is_visible(self.URL_FIELD)
 
     def navigate_back(self):
+        print("Will click on the Back button")
         self.click(self.BACK_BUTTON)
+        print("Clicked on the Back button")

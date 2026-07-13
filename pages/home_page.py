@@ -21,11 +21,16 @@ class HomePage(BasePage):
 
 
     def open_menu(self):
+        print("Will click on Menu button")
         self.click(self.MENU_BUTTON)
+        print("Clicked on Menu button")
 
     def logo_visible(self):
+        print("Will verify app logo")
         return self.is_visible(self.APP_LOGO)
+
     
     def click_catalog_icon(self):
+        print("Will click on catalog icon")
         self.click(self.CATALOG_ICON)
         print("Clicked catalog icon")

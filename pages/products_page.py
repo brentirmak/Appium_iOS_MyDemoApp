@@ -13,6 +13,3 @@ class ProductsPage(BasePage):
         print("\nClicking on green backpack product")
         self.click(self.GREEN_BACKPACK_IMAGE)
         print("\nClicked green backpack product")
-
-    #def logo_visible(self):
-    #    return self.is_visible(self.APP_LOGO)
