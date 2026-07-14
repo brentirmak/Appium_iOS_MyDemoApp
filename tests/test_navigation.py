@@ -5,6 +5,7 @@ from pages.login_page import LoginPage
 from pages.about_page import AboutPage
 from pages.products_page import ProductsPage
 from pages.greenbackpack_page import GreenBackpackPage
+from pages.cart_page import CartPage
 
 
 from utils.transaction_logger import execute_transaction
@@ -25,6 +26,7 @@ class TestNavigation:
         about = AboutPage(driver)
         product = ProductsPage(driver)
         green_backpack = GreenBackpackPage(driver)
+        cart = CartPage(driver)
         
 
         print("\nStarting test_01_open_menu transaction")
@@ -168,7 +170,14 @@ class TestNavigation:
                 home.click_catalog_icon(),
                 product.click_green_backpack_product(),
                 green_backpack.header_visible(),
-                green_backpack.click_back_to_products_icon()
+                green_backpack.click_add_to_cart_button(),
+                green_backpack.cart_with_one_item_visible(),
+                product.click_shopping_cart_icon(),
+                cart.header_visible(),
+                cart.click_remove_item_button(),
+                cart.no_items_in_cart_visible(),
+                cart.click_go_shopping_button()
+                #green_backpack.click_back_to_products_icon()
             )
         )
 
