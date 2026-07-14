@@ -10,6 +10,6 @@ class ProductsPage(BasePage):
     )
 
     def click_green_backpack_product(self):
-        print("\nClicking on green backpack product")
+        print("Clicking on green backpack product")
         self.click(self.GREEN_BACKPACK_IMAGE)
-        print("\nClicked green backpack product")
+        print("Clicked green backpack product")

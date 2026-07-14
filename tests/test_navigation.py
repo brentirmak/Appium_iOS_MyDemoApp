@@ -167,9 +167,24 @@ class TestNavigation:
             lambda: (
                 home.click_catalog_icon(),
                 product.click_green_backpack_product(),
-                green_backpack.header_visible()
+                green_backpack.header_visible(),
+                green_backpack.click_back_to_products_icon()
             )
         )
 
         print("Ended test_11_click_green_backpack_item transaction")
-    
+
+        
+        print("\nStarting test_12_sort_product_by_ascending transaction")
+
+        execute_transaction(
+            mysql_logger,
+            "test_12_sort_product_by_ascending",
+            lambda: (
+                home.click_sort_icon(),
+                home.click_sort_by_ascending_option(),
+            )
+        )
+
+        print("Starting test_12_sort_product_by_ascending transaction")
+        
