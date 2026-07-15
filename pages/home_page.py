@@ -5,8 +5,8 @@ from pages.base_page import BasePage
 class HomePage(BasePage):
 
     MENU_BUTTON = (
-        AppiumBy.XPATH,
-        '//XCUIElementTypeImage[@name="Menu Icons"]'
+        AppiumBy.ACCESSIBILITY_ID,
+        "More-tab-item"
     )
 
     APP_LOGO = (
@@ -14,14 +14,18 @@ class HomePage(BasePage):
         '//XCUIElementTypeImage[@name="AppTitle Icons"]'
     )
     
+    #CATALOG_ICON = (
+    #    AppiumBy.XPATH,
+    #    '//XCUIElementTypeStaticText[@name="Catalog"]'
+    #)
+
     CATALOG_ICON = (
-        AppiumBy.XPATH,
-        '//XCUIElementTypeStaticText[@name="Catalog"]'
+        AppiumBy.ACCESSIBILITY_ID,
+        "Catalog-tab-item"
     )
 
     PRODUCT_SORT_ICON = (
         AppiumBy.XPATH,
-        #'//XCUIElementTypeStaticText[@name="Button"]'
         '//XCUIElementTypeButton[@name="Button"]'
     )
 
@@ -32,8 +36,14 @@ class HomePage(BasePage):
 
     def open_menu(self):
         print("Will click on Menu button")
+        #print("CURRENT CONTEXT:", self.driver.current_context)
+        #print(self.driver.page_source)
         self.click(self.MENU_BUTTON)
         print("Clicked on Menu button")
+
+          # >>> ADD THIS DIAGNOSTIC HERE <<<
+        print("CURRENT CONTEXT:", self.driver.current_context)
+        print(self.driver.page_source)
 
     def logo_visible(self):
         print("Will verify app logo")

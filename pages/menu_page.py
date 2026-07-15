@@ -9,9 +9,14 @@ class MenuPage(BasePage):
         '//XCUIElementTypeButton[@name="LogOut-menu-item"]'
     )
 
+    #WEBVIEW_MENU = (
+    #    AppiumBy.XPATH,
+    #    '//XCUIElementTypeStaticText[@name="Webview"]'
+    #)
+
     WEBVIEW_MENU = (
-        AppiumBy.XPATH,
-        '//XCUIElementTypeStaticText[@name="Webview"]'
+        AppiumBy.ACCESSIBILITY_ID,
+        "Webview-menu-item"
     )
 
     LOGIN_MENU_ITEM = (
@@ -19,9 +24,34 @@ class MenuPage(BasePage):
         '//XCUIElementTypeButton[@name="LogOut-menu-item"]'
     )
 
+    #ABOUT_MENU_ITEM = (
+    #    AppiumBy.XPATH,
+    #    '//XCUIElementTypeStaticText[@name="About"]'
+    #)
+
     ABOUT_MENU_ITEM = (
-        AppiumBy.XPATH,
-        '//XCUIElementTypeStaticText[@name="About"]'
+        AppiumBy.ACCESSIBILITY_ID,
+        "About-menu-item"
+    )
+
+    #REPORT_BUG_MENU_ITEM = (
+    #    AppiumBy.XPATH,
+    #    '//XCUIElementTypeStaticText[@name="Report a Bug"]'
+    #)
+
+    #REPORT_BUG_MENU_ITEM = (
+    #    AppiumBy.ACCESSIBILITY_ID,
+    #    "Report a Bug-menu-item"
+    #)
+
+    #REPORT_BUG_MENU_ITEM = (
+    #    AppiumBy.XPATH,
+    #    '//XCUIElementTypeButton[@name="Report a Bug-menu-item"]'
+    #)
+
+    REPORT_BUG_MENU_ITEM = (
+        AppiumBy.IOS_CLASS_CHAIN,
+        '**/XCUIElementTypeButton[`name == "Report a Bug-menu-item"`]'
     )
 
     def logout_visible(self):
@@ -42,3 +72,8 @@ class MenuPage(BasePage):
         print("Will click on About menu item")
         self.click(self.ABOUT_MENU_ITEM)
         print("Clicked on About menu item")
+
+    def click_reportbug(self):
+        print("Will click on Report a Bug menu item")
+        self.click(self.REPORT_BUG_MENU_ITEM)
+        print("Clicked on Report a Bug menu item")

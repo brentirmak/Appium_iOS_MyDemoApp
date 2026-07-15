@@ -6,6 +6,7 @@ from pages.about_page import AboutPage
 from pages.products_page import ProductsPage
 from pages.greenbackpack_page import GreenBackpackPage
 from pages.cart_page import CartPage
+from pages.reportbug_page import ReportBugPage
 
 
 from utils.transaction_logger import execute_transaction
@@ -27,6 +28,7 @@ class TestNavigation:
         product = ProductsPage(driver)
         green_backpack = GreenBackpackPage(driver)
         cart = CartPage(driver)
+        reportbug = ReportBugPage(driver)
         
 
         print("\nStarting test_01_open_menu transaction")
@@ -195,5 +197,22 @@ class TestNavigation:
             )
         )
 
-        print("Starting test_12_sort_product_by_ascending transaction")
+        print("Ended test_12_sort_product_by_ascending transaction")
+
+        print("\nStarting test_13_report_a_bug transaction")
+
+        execute_transaction(
+            mysql_logger,
+            "test_13_report_a_bug",
+            lambda: (
+                home.open_menu(),
+                menu.click_reportbug(),
+                reportbug.enter_email(),
+                reportbug.enter_mesage(),
+                reportbug.click_send_button(),
+                home.logo_visible()
+            )
+        )
+
+        print("Ended test_13_report_a_bug transaction")
         
