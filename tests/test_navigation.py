@@ -208,7 +208,7 @@ class TestNavigation:
                 home.open_menu(),
                 menu.click_reportbug(),
                 reportbug.enter_email(),
-                reportbug.enter_mesage(),
+                reportbug.enter_message(),
                 reportbug.click_send_button(),
                 home.logo_visible()
             )

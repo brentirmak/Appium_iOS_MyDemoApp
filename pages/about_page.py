@@ -9,6 +9,6 @@ class AboutPage(BasePage):
         '//XCUIElementTypeStaticText[@name="About "]'
     )
 
-    
     def header_visible(self):
+        print("Will confirm that the About page header is visible")
         return self.is_visible(self.ABOUT_PAGE_HEADER)

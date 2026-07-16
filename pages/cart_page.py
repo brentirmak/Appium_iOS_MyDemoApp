@@ -25,9 +25,11 @@ class CartPage(BasePage):
     )
 
     def header_visible(self):
+        print("Will confirm that the MyCart page header is visible")
         return self.is_visible(self.MYCART_PAGE_HEADER)
     
     def no_items_in_cart_visible(self):
+        print("Will confirm that the No Items header is visible")
         return self.is_visible(self.NO_ITEMS_HEADER)
     
     def click_remove_item_button(self):
@@ -39,7 +41,5 @@ class CartPage(BasePage):
         print("Will click on Go Shopping button")
         self.click(self.GO_SHOPPING_BUTTON)
         print("Clicked on Go Shopping button")
-
-    # //XCUIElementTypeCell/XCUIElementTypeStaticText[@name="2"]
 
     

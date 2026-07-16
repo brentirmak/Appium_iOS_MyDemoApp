@@ -14,12 +14,6 @@ class WebViewPage(BasePage):
         "More-tab-item"
     )
 
-    #BACK_BUTTON = (
-    #    AppiumBy.XPATH,
-    #    "//XCUIElementTypeOther[@name=\"Webview-screen\"]/XCUIElementTypeOther[1]/XCUIElementTypeStaticText[@name=\"More\"]"
-    #)
-
-
     def url_field_visible(self):
         print("Will check that the URL field is visible")
         return self.is_visible(self.URL_FIELD)

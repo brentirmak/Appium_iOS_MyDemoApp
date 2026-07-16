@@ -42,8 +42,8 @@ class HomePage(BasePage):
         print("Clicked on Menu button")
 
           # >>> ADD THIS DIAGNOSTIC HERE <<<
-        print("CURRENT CONTEXT:", self.driver.current_context)
-        print(self.driver.page_source)
+        #print("CURRENT CONTEXT:", self.driver.current_context)
+        #print(self.driver.page_source)
 
     def logo_visible(self):
         print("Will verify app logo")
