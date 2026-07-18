@@ -1,14 +1,10 @@
-from pages.home_page import HomePage
+
 from pages.menu_page import MenuPage
-from pages.webview_page import WebViewPage
 from pages.login_page import LoginPage
-from pages.about_page import AboutPage
 from pages.products_page import ProductsPage
 from pages.greenbackpack_page import GreenBackpackPage
 from pages.cart_page import CartPage
-from pages.reportbug_page import ReportBugPage
 from pages.checkout_page import CheckoutPage
-
 from utils.transaction_logger import execute_transaction
 import time
 
@@ -20,16 +16,13 @@ class Test_Order_GreenBackPack:
             mysql_logger):
 
         # Sequence/execution order
-        #home = HomePage(driver)
-        menu_page = MenuPage(driver)
-        #webview = WebViewPage(driver)
-        login_page = LoginPage(driver)
-        #about = AboutPage(driver)
         product_page = ProductsPage(driver)
         green_backpack_page = GreenBackpackPage(driver)
         cart_page = CartPage(driver)
+        login_page = LoginPage(driver)
         checkout_page = CheckoutPage(driver)
-        #reportbug = ReportBugPage(driver)
+        menu_page = MenuPage(driver)
+
         
         print("\nStarting test_01_select_product transaction")
         execute_transaction(

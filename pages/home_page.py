@@ -14,11 +14,6 @@ class HomePage(BasePage):
         '//XCUIElementTypeImage[@name="AppTitle Icons"]'
     )
     
-    #CATALOG_ICON = (
-    #    AppiumBy.XPATH,
-    #    '//XCUIElementTypeStaticText[@name="Catalog"]'
-    #)
-
     CATALOG_ICON = (
         AppiumBy.ACCESSIBILITY_ID,
         "Catalog-tab-item"
