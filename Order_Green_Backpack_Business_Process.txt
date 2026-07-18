@@ -1,0 +1,58 @@
+*** Start Order Green BackPack Test ***
+
+--- Select Product ----
+1 - Click on Sauce Labs Backpack - Green
+2 - Verify Sauce Labs Backpack - Green headers
+3 - Click on Add To Cart button
+4 - Verify Cart(1) icon
+--- Select Product ----
+
+--- Proceed to Checkout ----
+1 - Click on Cart
+2 - Verify My Cart header is visible
+3 - Click on Proceed to Checkout button
+4 - Verify Login header
+--- Proceed to Checkout ----
+
+--- Login ----
+1 - Eneter Username
+2 - Enter Password
+3 - Click on Login button
+4 - Verify Checkout header
+--- Login ----
+
+--- Enter Shipping Information ----
+1 - Enter Full Name
+2 - Enter Address Line 1
+3 - Enter City
+4 - Enter Zip Code
+5 - Enter Country
+6 - Click To Payment button
+7 - Verify Enter a payment method headers
+--- Enter Shipping Information ----
+
+--- Enter Payment Information ----
+1 - Enter Full Name
+2 - Enter Card Number
+3 - Enter Expiration Date
+4 - Enter Security Code
+5 - Check my billing address is the same as my shipping address
+6 - Click Review Order button
+7 - Verify Review your order header
+--- Enter Payment Information ----
+
+--- Place Order and Cleanup ----
+1 - Click on Place Order button
+2 - Verify Checkout Complete message
+3 - Click on Continue Shopping
+4 - Click on Cart icon
+5 - Click on Remove Item link
+6 - Confirm No Items header is displayed
+7 - Click on Go Shopping 
+8 - Click on More
+9 - Verify MyDemoApp logo
+10 - Click on Logout
+11 - Verify Login header
+--- Place Order and Cleanup ----
+
+*** End Order Green BackPack Test ***

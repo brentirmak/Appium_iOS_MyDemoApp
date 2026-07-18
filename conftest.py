@@ -72,7 +72,7 @@ def db_logger():
         password=MYSQL_PASS,
         database="appium"
     )
-    logger.connect()   # <-- connection happens here, NOT at import time
+    logger.connect()  # <-- connection happens here, NOT at import time
     yield logger
     logger.close()
 
