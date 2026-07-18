@@ -24,6 +24,11 @@ class CartPage(BasePage):
         '//XCUIElementTypeStaticText[@name="Go Shopping"]'
     )
 
+    PROCEED_TO_CHECKOUT_BUTTON = (
+        AppiumBy.XPATH,
+        '//XCUIElementTypeButton[@name="ProceedToCheckout"]'
+    )
+
     def header_visible(self):
         print("Will confirm that the MyCart page header is visible")
         return self.is_visible(self.MYCART_PAGE_HEADER)
@@ -41,5 +46,10 @@ class CartPage(BasePage):
         print("Will click on Go Shopping button")
         self.click(self.GO_SHOPPING_BUTTON)
         print("Clicked on Go Shopping button")
+
+    def click_proceed_to_checkout_button(self):
+        print("Will click on the Proceed to Checkout button")
+        self.click(self.PROCEED_TO_CHECKOUT_BUTTON)
+        print("Clicked on Proceed to Checkout button")
 
     

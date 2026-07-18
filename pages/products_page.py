@@ -14,6 +14,11 @@ class ProductsPage(BasePage):
         '//XCUIElementTypeButton[@name="Cart-tab-item"]'
     )
 
+    MORE_ICON = (
+        AppiumBy.ACCESSIBILITY_ID,
+        "More-tab-item"
+    )
+
     def click_green_backpack_product(self):
         print("Clicking on green backpack product")
         self.click(self.GREEN_BACKPACK_IMAGE)
@@ -23,3 +28,8 @@ class ProductsPage(BasePage):
         print("Clicking on shopping cart icon")
         self.click(self.SHOPPING_CART_ICON)
         print("Clicked on shopping cart icon")
+
+    def click_more_icon(self):
+        print("Will click on More icon")
+        self.click(self.MORE_ICON)
+        print("Clicked on More icon")
