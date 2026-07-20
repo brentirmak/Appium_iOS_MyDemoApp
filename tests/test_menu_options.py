@@ -2,6 +2,8 @@ from pages.home_page import HomePage
 from pages.menu_page import MenuPage
 from pages.webview_page import WebViewPage
 from pages.qrcodescanner_page import QRCodeScannerPage
+from pages.geolocation_page import GeoLocationPage
+from pages.drawing_page import DrawingPage
 from pages.about_page import AboutPage
 
 from pages.login_page import LoginPage
@@ -24,13 +26,15 @@ class Test_Menu_Options:
         menu_page = MenuPage(driver)
         webview_page = WebViewPage(driver)
         qrcodescanner_page = QRCodeScannerPage(driver)
+        geolocation_page = GeoLocationPage(driver)
+        drawing_page = DrawingPage(driver)
         about_page = AboutPage(driver)
 
-        product_page = ProductsPage(driver)
-        green_backpack_page = GreenBackpackPage(driver)
-        cart_page = CartPage(driver)
-        login_page = LoginPage(driver)
-        checkout_page = CheckoutPage(driver)
+        #product_page = ProductsPage(driver)
+        #green_backpack_page = GreenBackpackPage(driver)
+        #cart_page = CartPage(driver)
+        #login_page = LoginPage(driver)
+        #checkout_page = CheckoutPage(driver)
         
         print("\nStarting test_01_webview_page transaction")
 
@@ -65,6 +69,36 @@ class Test_Menu_Options:
         )
 
         print("Ended test_02_qrcodescanner_page transaction")
+
+        print("\nStarting test_03_geolocation_page transaction")
+
+        execute_transaction(
+            mysql_logger,
+            "test_03_geolocation_page",
+            lambda: (
+                menu_page.click_geo_location(),
+                geolocation_page.header_visible(),
+                webview_page.navigate_back(),
+                menu_page.mydemoapp_logo_visible()
+            )
+        )
+
+        print("Ended test_03_geolocation_page transaction")
+
+        print("\nStarting test_04_drawing_page transaction")
+
+        execute_transaction(
+            mysql_logger,
+            "test_04_drawing_page",
+            lambda: (
+                menu_page.click_drawing(),
+                drawing_page.header_visible(),
+                webview_page.navigate_back(),
+                menu_page.mydemoapp_logo_visible()
+            )
+        )
+
+        print("Ended test_04_drawing_page transaction")
 
         print("\nStarting test_08_about_page transaction")
 

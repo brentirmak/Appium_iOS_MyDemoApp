@@ -19,6 +19,16 @@ class MenuPage(BasePage):
         '//XCUIElementTypeButton[@name="QrCodeScanner-menu-item"]'
     )
 
+    GEO_LOCATION_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//XCUIElementTypeButton[@name="GeoLocation-menu-item"]'
+    )
+
+    DRAWING_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//XCUIElementTypeButton[@name="Drawing-menu-item"]'
+    )
+
     LOGIN_MENU_ITEM = (
         AppiumBy.XPATH,
         '//XCUIElementTypeButton[@name="LogOut-menu-item"]'
@@ -51,6 +61,16 @@ class MenuPage(BasePage):
         print("Will click on the QR Code Scanner menu item")
         self.click(self.QRCODE_SCANNER_MENU_ITEM)
         print("Clicked on QR Code Scanner menu item")
+
+    def click_geo_location(self):
+        print("Will click on the Geo Location menu item")
+        self.click(self.GEO_LOCATION_MENU_ITEM)
+        print("Clicked on the Geo Location menu item")
+
+    def click_drawing(self):
+        print("Will click on the Drawing menu item")
+        self.click(self.DRAWING_MENU_ITEM)
+        print("Clicked on the Drawing menu item")
 
     def click_login(self):
         print("Will click on Login menu item")
