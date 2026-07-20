@@ -9,9 +9,14 @@ class MenuPage(BasePage):
         '//XCUIElementTypeButton[@name="LogOut-menu-item"]'
     )
 
-    WEBVIEW_MENU = (
+    WEBVIEW_MENU_ITEM = (
         AppiumBy.ACCESSIBILITY_ID,
         "Webview-menu-item"
+    )
+
+    QRCODE_SCANNER_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//XCUIElementTypeButton[@name="QrCodeScanner-menu-item"]'
     )
 
     LOGIN_MENU_ITEM = (
@@ -39,8 +44,13 @@ class MenuPage(BasePage):
 
     def open_webview(self):
         print("Will click on Webview menu item")
-        self.click(self.WEBVIEW_MENU)
+        self.click(self.WEBVIEW_MENU_ITEM)
         print("Clicked on Webview meu item")
+
+    def click_qrcodescanner(self):
+        print("Will click on the QR Code Scanner menu item")
+        self.click(self.QRCODE_SCANNER_MENU_ITEM)
+        print("Clicked on QR Code Scanner menu item")
 
     def click_login(self):
         print("Will click on Login menu item")
@@ -64,5 +74,5 @@ class MenuPage(BasePage):
         print("Clicked on Report a Bug menu item")
 
     def mydemoapp_logo_visible(self):
-        print("Will check if teh MyDemoApp logo is visible")
+        print("Will check if the MyDemoApp logo is visible")
         return self.is_visible(self.MYDEMOAPP_LOGO)

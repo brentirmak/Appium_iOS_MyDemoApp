@@ -9,7 +9,7 @@ class WebViewPage(BasePage):
         '//XCUIElementTypeStaticText[@name="Enter an https URL"]'
     )
 
-    BACK_BUTTON = (
+    MORE_BACK_ARROW = (
         AppiumBy.ACCESSIBILITY_ID,
         "More-tab-item"
     )
@@ -24,7 +24,7 @@ class WebViewPage(BasePage):
         # Switch back to native before clicking
         self.switch_to_native()
 
-        self.click(self.BACK_BUTTON)
+        self.click(self.MORE_BACK_ARROW)
         print("Clicked on the Back button")
 
     # ---------------------------------------------------------
