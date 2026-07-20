@@ -29,6 +29,21 @@ class MenuPage(BasePage):
         '//XCUIElementTypeButton[@name="Drawing-menu-item"]'
     )
 
+    REPORT_BUG_MENU_ITEM = (
+        AppiumBy.ACCESSIBILITY_ID,
+        "Report a Bug"
+    )
+
+    REPORT_BUG_DEBUG_MENU_ITEM = (
+        AppiumBy.ACCESSIBILITY_ID,
+        "Report a Bug (debug)"
+    )
+
+    PUSH_NOTIFICATIONS_MENU_ITEM = (
+        AppiumBy.ACCESSIBILITY_ID,
+        "Push Notifications"
+    )
+
     LOGIN_MENU_ITEM = (
         AppiumBy.XPATH,
         '//XCUIElementTypeButton[@name="LogOut-menu-item"]'
@@ -41,11 +56,6 @@ class MenuPage(BasePage):
     ABOUT_MENU_ITEM = (
         AppiumBy.ACCESSIBILITY_ID,
         "About-menu-item"
-    )
-
-    REPORT_BUG_MENU_ITEM = (
-        AppiumBy.ACCESSIBILITY_ID,
-        "Report a Bug"
     )
 
     def logout_visible(self):
@@ -72,6 +82,24 @@ class MenuPage(BasePage):
         self.click(self.DRAWING_MENU_ITEM)
         print("Clicked on the Drawing menu item")
 
+    def click_reportbug(self):
+        print("Will click on Report a Bug menu item")
+        report_bug_button = self.driver.find_element(*self.REPORT_BUG_MENU_ITEM)
+        report_bug_button.click()
+        print("Clicked on Report a Bug menu item")
+
+    def click_reportbug_debug(self):
+        print("Will click on Report a Bug(debug) menu item")
+        report_bug_debug_button = self.driver.find_element(*self.REPORT_BUG_DEBUG_MENU_ITEM)
+        report_bug_debug_button.click()
+        print("Clicked on Report a Bug(debug) menu item")
+
+    def click_push_notifications(self):
+        print("Will click on Push Notifications menu item")
+        push_notifications_button = self.driver.find_element(*self.PUSH_NOTIFICATIONS_MENU_ITEM)
+        push_notifications_button.click()
+        print("Clicked on Push Notifications menu item")
+
     def click_login(self):
         print("Will click on Login menu item")
         self.click(self.LOGIN_MENU_ITEM)
@@ -86,12 +114,6 @@ class MenuPage(BasePage):
         print("Will click on About menu item")
         self.click(self.ABOUT_MENU_ITEM)
         print("Clicked on About menu item")
-
-    def click_reportbug(self):
-        print("Will click on Report a Bug menu item")
-        report_bug_button = self.driver.find_element(*self.REPORT_BUG_MENU_ITEM)
-        report_bug_button.click()
-        print("Clicked on Report a Bug menu item")
 
     def mydemoapp_logo_visible(self):
         print("Will check if the MyDemoApp logo is visible")

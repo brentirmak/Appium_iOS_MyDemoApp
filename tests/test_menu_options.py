@@ -4,13 +4,10 @@ from pages.webview_page import WebViewPage
 from pages.qrcodescanner_page import QRCodeScannerPage
 from pages.geolocation_page import GeoLocationPage
 from pages.drawing_page import DrawingPage
+from pages.reportbug_page import ReportBugPage
+from pages.reportbug_debug_page import ReportBugDebugPage
+from pages.push_notifications_page import PushNotificationsPage
 from pages.about_page import AboutPage
-
-from pages.login_page import LoginPage
-from pages.products_page import ProductsPage
-from pages.greenbackpack_page import GreenBackpackPage
-from pages.cart_page import CartPage
-from pages.checkout_page import CheckoutPage
 from utils.transaction_logger import execute_transaction
 import time
 
@@ -28,14 +25,11 @@ class Test_Menu_Options:
         qrcodescanner_page = QRCodeScannerPage(driver)
         geolocation_page = GeoLocationPage(driver)
         drawing_page = DrawingPage(driver)
+        reportbug_page = ReportBugPage(driver)
+        reportbug_debug_page = ReportBugDebugPage(driver)
+        push_notifications_page = PushNotificationsPage(driver)
         about_page = AboutPage(driver)
 
-        #product_page = ProductsPage(driver)
-        #green_backpack_page = GreenBackpackPage(driver)
-        #cart_page = CartPage(driver)
-        #login_page = LoginPage(driver)
-        #checkout_page = CheckoutPage(driver)
-        
         print("\nStarting test_01_webview_page transaction")
 
         execute_transaction(
@@ -100,128 +94,61 @@ class Test_Menu_Options:
 
         print("Ended test_04_drawing_page transaction")
 
+        print("\nStarting test_05_reportbug_page transaction")
+
+        execute_transaction(
+            mysql_logger,
+            "test_05_reportbug_page",
+            lambda: (
+                menu_page.click_reportbug(),
+                reportbug_page.header_visible(),
+                reportbug_page.click_cancel_icon(),
+                menu_page.mydemoapp_logo_visible()
+            )
+        )
+
+        print("Ended test_05_reportbug_page transaction")
+
+        print("\nStarting test_06_reportbug_debug_page transaction")
+
+        execute_transaction(
+            mysql_logger,
+            "test_06_reportbug_debug_page",
+            lambda: (
+                menu_page.click_reportbug_debug(),
+                reportbug_debug_page.header_visible(),
+                reportbug_debug_page.click_debug_back_icon(),
+                menu_page.mydemoapp_logo_visible()
+            )
+        )
+
+        print("Ended test_06_reportbug_debug_page transaction")
+
+        print("\nStarting test_07_push_notifications_page transaction")
+
+        execute_transaction(
+            mysql_logger,
+            "test_07_push_notifications_page",
+            lambda: (
+                menu_page.click_push_notifications(),
+                push_notifications_page.header_visible(),
+                push_notifications_page.click_back_icon(),
+                menu_page.mydemoapp_logo_visible()
+            )
+        )
+
+        print("Ended test_07_push_notifications_page transaction")
+
         print("\nStarting test_08_about_page transaction")
 
         execute_transaction(
             mysql_logger,
             "test_08_about_page",
             lambda: (
-                #home_page.open_menu(),
                 menu_page.click_about(),
                 about_page.header_visible()
             )
         )
 
         print("Ended test_08_about_page transaction")
-
-
-
-        '''
-        
-        print("\nStarting test_01_select_product transaction")
-        execute_transaction(
-            mysql_logger,
-            "test_01_select_product",
-            lambda: (
-                product_page.click_green_backpack_product(),
-                green_backpack_page.header_visible(),
-                green_backpack_page.click_add_to_cart_button(),
-                green_backpack_page.cart_with_one_item_visible(),
-                print("Cart with one item is visible")
-            )
-        )
-        print("Ended test_01_select_product transaction")
-
-        print("\nStarting test_02_proceed_to_checkout transaction")
-        execute_transaction(
-            mysql_logger,
-            "test_02_proceed_to_checkout",
-            lambda: (
-                product_page.click_shopping_cart_icon(),
-                cart_page.header_visible(),
-                cart_page.click_proceed_to_checkout_button(),
-                login_page.header_visible(),
-                print("Login header is visible")
-            )
-        )
-        print("Ended test_02_proceed_to_checkout transaction")
-
-        print("\nStarting test_03_login transaction")
-        execute_transaction(
-            mysql_logger,
-            "test_03_login",
-            lambda: (
-                login_page.enter_username("visual@example.com"),
-                login_page.enter_password("10203040"),
-                login_page.click_login_button(),
-                checkout_page.header_visible(),
-                print("Checkout header is visible")
-            )
-        )
-        print("Ended test_03_login transaction")
-
-
-        print("\nStarting test_04_enter_shipping_info transaction")
-        execute_transaction(
-            mysql_logger,
-            "test_04_enter_shipping_info",
-            lambda: (
-                checkout_page.enter_fullname("Test User"),
-                checkout_page.enter_address_line_1("123 Street"),
-                checkout_page.enter_address_line_2("#456"),
-                checkout_page.enter_city("Sunnyvale"),
-                checkout_page.click_address_line_2_field(),
-                checkout_page.enter_state("California"),
-                checkout_page.click_address_line_2_field(),
-                checkout_page.enter_zipcode("94087"),
-                checkout_page.click_address_line_2_field(),
-                checkout_page.enter_country("USA"),
-                checkout_page.click_address_line_2_field(),
-                checkout_page.click_to_payment_button(),
-                checkout_page.enter_payment_method_header_visible(),
-                print("Enter payment method header is visible")
-            )
-        )
-        print("Ended test_04_enter_shipping_info transaction")
-
-
-        print("\nStarting test_05_enter_payment_info transaction")
-        execute_transaction(
-            mysql_logger,
-            "test_05_enter_payment_info",
-            lambda: (
-                checkout_page.enter_creditcard_fullname("Test User"),
-                checkout_page.enter_creditcard_number("1234123412341234"),
-                checkout_page.enter_creditcard_exp_date("03/28"),
-                checkout_page.click_creditcard_number_field(),
-                checkout_page.enter_creditcard_secuirty_code("123"),
-                checkout_page.click_creditcard_number_field(),
-                checkout_page.click_review_order_button(),
-                checkout_page.review_your_order_header_visible(),
-                print("Review your order header is visible")
-            )
-        )
-        print("Ended test_05_enter_payment_info transaction")
-
-        print("\nStarting test_06_place_order_and_cleanup transaction")
-        execute_transaction(
-            mysql_logger,
-            "test_06_place_order_and_cleanup",
-            lambda: (
-                checkout_page.click_place_order_button(),
-                checkout_page.checkout_complete_header_visible(),
-                checkout_page.click_continue_shopping_button(),
-                product_page.click_shopping_cart_icon(),
-                cart_page.click_remove_item_button(),
-                cart_page.no_items_in_cart_visible(),
-                cart_page.click_go_shopping_button(),
-                product_page.click_more_icon(),
-                menu_page.mydemoapp_logo_visible(),
-                menu_page.click_logout(),
-                login_page.header_visible(),
-                print("Login header is visible")
-            )
-        )
-        print("Ended test_06_place_order_and_cleanup transaction")
-
-    '''
+    

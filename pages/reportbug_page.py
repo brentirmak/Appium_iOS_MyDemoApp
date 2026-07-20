@@ -19,6 +19,11 @@ class ReportBugPage(BasePage):
         'XCUIElementTypeTextView'
     )
 
+    CANCEL_ICON = (
+        AppiumBy.ACCESSIBILITY_ID,
+        "Cancel"
+    )
+
     SEND_BUTTON = (
         AppiumBy.XPATH,
         '//XCUIElementTypeButton[@name="Send"]'
@@ -47,6 +52,11 @@ class ReportBugPage(BasePage):
         print("Will click on the Send button")
         self.click(self.SEND_BUTTON)
         print("Clicked on the Send button")
+
+    def click_cancel_icon(self):
+        print("Will click on the Cancel icon")
+        self.click(self.CANCEL_ICON)
+        print("Clicked on the Cancel icon")
         
 
 
