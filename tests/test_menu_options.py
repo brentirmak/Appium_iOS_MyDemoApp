@@ -76,11 +76,12 @@ class Test_Menu_Options:
             mysql_logger,
             "test_03_geolocation_page",
             lambda: (
-                print(driver.page_source),
+                #print(driver.page_source),
                 home_page.open_menu(),
                 menu_page.click_geo_location(),
                 geolocation_page.header_visible(),
-                webview_page.navigate_back(),
+                geolocation_page.click_back_icon(),
+                #webview_page.navigate_back(),
                 menu_page.mydemoapp_logo_visible()
             )
         )
