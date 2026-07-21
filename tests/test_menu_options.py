@@ -63,7 +63,7 @@ class Test_Menu_Options:
                 qrcodescanner_page.header_visible(),
                 #qrcodescanner_page.click_do_not_allow_button(),
                 #qrcodescanner_page.click_access_denied_ok_button(),
-                webview_page.navigate_back(),
+                qrcodescanner_page.click_back_button(),
                 menu_page.mydemoapp_logo_visible()
             )
         )
@@ -77,6 +77,7 @@ class Test_Menu_Options:
             "test_03_geolocation_page",
             lambda: (
                 print(driver.page_source),
+                home_page.open_menu(),
                 menu_page.click_geo_location(),
                 geolocation_page.header_visible(),
                 webview_page.navigate_back(),

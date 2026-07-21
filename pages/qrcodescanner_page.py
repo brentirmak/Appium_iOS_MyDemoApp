@@ -14,12 +14,15 @@ class QRCodeScannerPage(BasePage):
         '//XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]'
     )
 
-    # //XCUIElementTypeAlert[@name="Camera Access Denied"]/XCUIElementTypeOther[1]/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeScrollView[2]
-    # //XCUIElementTypeAlert[@name="Camera Access Denied"]/XCUIElementTypeOther[1]/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeScrollView[2]
     ACCESS_DENIED_OK_BUTTON = (
         AppiumBy.XPATH,
-        #'//XCUIElementTypeButton[@name="OK"] || //XCUIElementTypeAlert[@name="Camera Access Denied"]/XCUIElementTypeOther[1]/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeScrollView[2]'
         '//XCUIElementTypeAlert[@name="Camera Access Denied"]/XCUIElementTypeOther[1]/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeScrollView[2]'
+    )
+
+    BACK_BUTTON = (
+        AppiumBy.XPATH,
+        '//XCUIElementTypeOther[@name="QrCodeScanner-screen"]'
+        #"//XCUIElementTypeOther[@name='QrCodeScanner-screen']//XCUIElementTypeButton"
     )
 
     def click_do_not_allow_button(self):
@@ -31,6 +34,12 @@ class QRCodeScannerPage(BasePage):
         print("Will click Camera Access Denied - OK button")
         self.click(self.ACCESS_DENIED_OK_BUTTON)
         print("Clicked on Camera Access Denied - OK button")
+
+    def click_back_button(self):
+        print("Will click on the Back button")
+        self.click(self.BACK_BUTTON)
+        #self.wait_until_not_visible((AppiumBy.ACCESSIBILITY_ID, "QrCodeScanner-screen"))
+        print("Clicked on the Back button")
 
     def header_visible(self):
         print("Confirming that the QR Code Scanner header is visible")

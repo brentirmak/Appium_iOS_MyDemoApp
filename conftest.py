@@ -1,6 +1,7 @@
 import pytest
 import time
 import os
+import subprocess
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -125,3 +126,8 @@ def mysql_logger():
     yield logger
 
     logger.close()
+
+@pytest.fixture(scope="session", autouse=True)
+def open_simulator_gui():
+    subprocess.run(["open", "-a", "Simulator"])
+    yield

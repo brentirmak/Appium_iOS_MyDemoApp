@@ -34,8 +34,8 @@ class BasePage:
     # Click helpers
     # ---------------------------
     def click(self, locator):
-        self.wait_for_clickable(locator)
-        self.driver.find_element(*locator).click()
+        element = self.wait_for_clickable(locator)
+        element.click()
 
     def wait_and_click(self, locator):
         el = self.wait_for_clickable(locator)
@@ -64,9 +64,12 @@ class BasePage:
     # ---------------------------
     # Visibility checks
     # ---------------------------
-    def is_visible(self, locator):
+    def is_visible(self, locator, timeout=10):
         try:
-            return self.driver.find_element(*locator).is_displayed()
+            WebDriverWait(self.driver, timeout).until(
+                EC.visibility_of_element_located(locator)
+            )
+            return True
         except Exception:
             return False
 
