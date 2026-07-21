@@ -1,0 +1,77 @@
+*** Start Menu Options Test ***
+
+--- Webview Page ---
+1) Open Menu
+2) Verify MyDemoApp logo
+3) Select Webview menu item
+4) Verify URL field is visible
+5) Click on the Back icon
+6) Verify MyDemoApp logo
+--- Webview Page ---
+
+--- QR Code Scanner Page ---
+1) Select QR Code Scanner menu item
+2) Verify QR Code Scanner header
+3) Click on the Back icon
+4) Verify MyDemoApp logo
+--- QR Code Scanner Page ---
+
+--- GEO Location Page ---
+1) Select GEO Location menu item
+2) Verify GEO Location header
+3) Click on the Back icon
+4) Verify MyDemoApp logo
+--- GEO Location Page ---
+
+--- Drawing Page ---
+1) Select Drawing menu option
+2) Verify Drawing page header
+3) Click on the Back icon
+4) Verify MyDemoApp logo
+--- Drawing Page ---
+
+--- ReportBug Page ---
+1) Select Report Bug menu option
+2) Verify Report Bug page header
+3) Click on Cancel icon
+4) Verify MyDemoApp logo
+--- ReportBug Page ---
+
+--- ReportBug Debug Page ---
+1) Select Report Bug (Debug) menu option
+2) Verify Report Bug (Debug) header
+3) Click on the Back icon
+4) Verify MyDemoApp logo
+--- ReportBug Debug Page ---
+
+--- Push Notifications Page ---
+1) Select Push Notifications menu option
+2) Verify Push Notifications header
+3) Click on the Back icon
+4) Verify MyDemoApp logo
+--- Push Notifications Page ---
+
+--- About Page ---
+1) Select About menu option
+2) Verify About page header
+3) Click on the Back icon
+4) Verify MyDemoApp logo
+--- About Page ---
+
+--- FaceID Page ---
+1) Select FaceID menu option
+2) Verify FaceID page header
+3) Click on the Back icon
+4) Verify MyDemoApp logo
+--- FaceID Page ---
+
+--- Login Page ---
+1) Click Login menu option
+2) Verify Login page header
+3) Enter username
+4) Enter password
+5) Click Login button
+6) Verify Products page header
+--- Login Page ---
+
+*** End Menu Options Test ***

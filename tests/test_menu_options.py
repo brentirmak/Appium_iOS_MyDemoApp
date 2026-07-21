@@ -168,7 +168,8 @@ class Test_Menu_Options:
             lambda: (
                 menu_page.click_faceid(),
                 faceid_page.header_visible(),
-                faceid_page.click_faceid_back_icon()
+                faceid_page.click_faceid_back_icon(),
+                menu_page.mydemoapp_logo_visible()
             )
         )
 
