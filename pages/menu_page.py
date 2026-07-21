@@ -44,6 +44,11 @@ class MenuPage(BasePage):
         "Push Notifications"
     )
 
+    FACEID_MENU_ITEM = (
+        AppiumBy.ACCESSIBILITY_ID,
+        "FaceID"
+    )
+
     LOGIN_MENU_ITEM = (
         AppiumBy.XPATH,
         '//XCUIElementTypeButton[@name="LogOut-menu-item"]'
@@ -99,6 +104,12 @@ class MenuPage(BasePage):
         push_notifications_button = self.driver.find_element(*self.PUSH_NOTIFICATIONS_MENU_ITEM)
         push_notifications_button.click()
         print("Clicked on Push Notifications menu item")
+
+    def click_faceid(self):
+        print("Will click on the FaceID menu item")
+        faceid_menu_item = self.driver.find_element(*self.FACEID_MENU_ITEM)
+        faceid_menu_item.click()
+        print("Clicked on the FaceID menu item")
 
     def click_login(self):
         print("Will click on Login menu item")

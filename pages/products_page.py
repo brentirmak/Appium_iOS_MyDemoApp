@@ -19,6 +19,11 @@ class ProductsPage(BasePage):
         "More-tab-item"
     )
 
+    PRODUCTS_HEADER = (
+        AppiumBy.XPATH,
+        '//XCUIElementTypeStaticText[@name="title"]'
+    )
+
     def click_green_backpack_product(self):
         print("Clicking on green backpack product")
         self.click(self.GREEN_BACKPACK_IMAGE)
@@ -33,3 +38,7 @@ class ProductsPage(BasePage):
         print("Will click on More icon")
         self.click(self.MORE_ICON)
         print("Clicked on More icon")
+
+    def products_header_visible(self):
+        print("Will check if the Products header is visible")
+        return self.is_visible(self.PRODUCTS_HEADER)

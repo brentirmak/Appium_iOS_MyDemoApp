@@ -8,6 +8,9 @@ from pages.reportbug_page import ReportBugPage
 from pages.reportbug_debug_page import ReportBugDebugPage
 from pages.push_notifications_page import PushNotificationsPage
 from pages.about_page import AboutPage
+from pages.faceid_page import FaceIDPage
+from pages.login_page import LoginPage
+from pages.products_page import ProductsPage
 from utils.transaction_logger import execute_transaction
 import time
 
@@ -29,6 +32,9 @@ class Test_Menu_Options:
         reportbug_debug_page = ReportBugDebugPage(driver)
         push_notifications_page = PushNotificationsPage(driver)
         about_page = AboutPage(driver)
+        faceid_page = FaceIDPage(driver)
+        login_page = LoginPage(driver)
+        products_page = ProductsPage(driver)
 
         print("\nStarting test_01_webview_page transaction")
 
@@ -146,9 +152,42 @@ class Test_Menu_Options:
             "test_08_about_page",
             lambda: (
                 menu_page.click_about(),
-                about_page.header_visible()
+                about_page.header_visible(),
+                about_page.click_about_back_icon(),
+                menu_page.mydemoapp_logo_visible()
             )
         )
 
         print("Ended test_08_about_page transaction")
+
+        print("\nStarting test_09_faceID_page transaction")
+
+        execute_transaction(
+            mysql_logger,
+            "test_09_faceID_page",
+            lambda: (
+                menu_page.click_faceid(),
+                faceid_page.header_visible(),
+                faceid_page.click_faceid_back_icon()
+            )
+        )
+
+        print("Ended test_09_faceID_page transaction")
+
+        print("\nStarting test_10_login_page transaction")
+
+        execute_transaction(
+            mysql_logger,
+            "test_10_login_page",
+            lambda: (
+                menu_page.click_login(),
+                login_page.header_visible(),
+                login_page.enter_username("visual@example.com"),
+                login_page.enter_password("10203040"),
+                login_page.click_login_button(),
+                products_page.products_header_visible()
+            )
+        )
+
+        print("Ended test_10_login_page transaction")
     
