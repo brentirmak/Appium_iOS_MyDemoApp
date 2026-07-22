@@ -2,7 +2,7 @@
 
 set -e
 
-PROJECT_DIR="${PROJECT_DIR:-$HOME/Desktop/my-demo-app-ios-main}"
+PROJECT_DIR="${PROJECT_DIR:-$WORKSPACE}"
 WORKSPACE="My Demo App.xcworkspace"
 SCHEME="My Demo App"
 DEVICE_NAME="iPhone 17 Pro"
