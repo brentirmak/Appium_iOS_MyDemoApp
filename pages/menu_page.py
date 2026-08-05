@@ -2,7 +2,8 @@ from appium.webdriver.common.appiumby import AppiumBy
 from pages.base_page import BasePage
 import time
 from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class MenuPage(BasePage):
 
@@ -140,6 +141,18 @@ class MenuPage(BasePage):
         self.click(self.ABOUT_MENU_ITEM)
         print("Clicked on About menu item")
 
-    def mydemoapp_logo_visible(self):
+    def mydemoapp_logo_visible(self, timeout=15):
         print("Will check if the MyDemoApp logo is visible")
-        return self.is_visible(self.MYDEMOAPP_LOGO)
+        try:
+            el = WebDriverWait(self.driver, timeout).until(
+                EC.visibility_of_element_located(self.MYDEMOAPP_LOGO)
+            )
+            return el.is_displayed() and el.is_enabled()
+        except Exception:
+            return False
+
+    def drawing_menu_item_visible(self):
+        print("Will check if the Drawing menu item is visible")
+        return self.is_visible(self.DRAWING_MENU_ITEM)
+
+    

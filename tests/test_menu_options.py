@@ -81,8 +81,11 @@ class Test_Menu_Options:
                     home_page.open_menu(),
                     menu_page.click_geo_location(),
                     geolocation_page.header_visible(),
+                    time.sleep(2),
                     geolocation_page.click_back_icon(),   # no retry here
-                    menu_page.mydemoapp_logo_visible()
+                    menu_page.mydemoapp_logo_visible(),
+                    print("Checked for the logo being visible"),
+                    menu_page.drawing_menu_item_visible()
                 )
             ),
             retries=3,

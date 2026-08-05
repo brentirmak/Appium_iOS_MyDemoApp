@@ -8,7 +8,7 @@ class GeoLocationPage(BasePage):
         AppiumBy.XPATH,
         '//XCUIElementTypeStaticText[@name="Geo Location"]'
     )
-
+    
     BACK_ICON = (
         AppiumBy.XPATH,
         '//XCUIElementTypeOther[@name="GeoLocation-screen"]/XCUIElementTypeOther[1]/XCUIElementTypeOther/XCUIElementTypeButton'
