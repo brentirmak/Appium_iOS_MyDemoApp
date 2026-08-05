@@ -73,32 +73,40 @@ class Test_Menu_Options:
 
         print("\nStarting test_03_geolocation_page transaction")
 
-        execute_transaction(
-            mysql_logger,
-            "test_03_geolocation_page",
-            lambda: (
-                #print(driver.page_source),
-                home_page.open_menu(),
-                menu_page.click_geo_location(),
-                geolocation_page.header_visible(),
-                retry_action(lambda: geolocation_page.click_back_icon()),
-                menu_page.mydemoapp_logo_visible()
-            )
+        retry_action(
+            lambda: execute_transaction(
+                mysql_logger,
+                "test_03_geolocation_page",
+                lambda: (
+                    home_page.open_menu(),
+                    menu_page.click_geo_location(),
+                    geolocation_page.header_visible(),
+                    geolocation_page.click_back_icon(),   # no retry here
+                    menu_page.mydemoapp_logo_visible()
+                )
+            ),
+            retries=3,
+            delay=1
         )
 
         print("Ended test_03_geolocation_page transaction")
 
+
         print("\nStarting test_04_drawing_page transaction")
 
-        execute_transaction(
-            mysql_logger,
-            "test_04_drawing_page",
-            lambda: (
-                menu_page.click_drawing(),
-                drawing_page.header_visible(),
-                webview_page.navigate_back(),
-                menu_page.mydemoapp_logo_visible()
-            )
+        retry_action(
+            lambda: execute_transaction(
+                mysql_logger,
+                "test_04_drawing_page",
+                lambda: (
+                    menu_page.click_drawing(),
+                    drawing_page.header_visible(),
+                    webview_page.navigate_back(),
+                    menu_page.mydemoapp_logo_visible()
+                )
+            ),
+            retries=3,
+            delay=1
         )
 
         print("Ended test_04_drawing_page transaction")
