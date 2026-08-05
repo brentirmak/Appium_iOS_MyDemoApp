@@ -12,6 +12,7 @@ from pages.faceid_page import FaceIDPage
 from pages.login_page import LoginPage
 from pages.products_page import ProductsPage
 from utils.transaction_logger import execute_transaction
+from utils.retry import retry_action
 import time
 
 class Test_Menu_Options:
@@ -80,8 +81,7 @@ class Test_Menu_Options:
                 home_page.open_menu(),
                 menu_page.click_geo_location(),
                 geolocation_page.header_visible(),
-                geolocation_page.click_back_icon(),
-                #webview_page.navigate_back(),
+                retry_action(lambda: geolocation_page.click_back_icon()),
                 menu_page.mydemoapp_logo_visible()
             )
         )

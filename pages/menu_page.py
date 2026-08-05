@@ -1,5 +1,7 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from pages.base_page import BasePage
+import time
+from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
 
 
 class MenuPage(BasePage):
@@ -82,10 +84,22 @@ class MenuPage(BasePage):
         self.click(self.GEO_LOCATION_MENU_ITEM)
         print("Clicked on the Geo Location menu item")
 
-    def click_drawing(self):
+    def click_drawing(self, retries=3, delay=1.0):
         print("Will click on the Drawing menu item")
-        self.click(self.DRAWING_MENU_ITEM)
-        print("Clicked on the Drawing menu item")
+
+        for attempt in range(1, retries + 1):
+            try:
+                self.click(self.DRAWING_MENU_ITEM)
+                print("Clicked on the Drawing menu item")
+                return
+            except (ElementClickInterceptedException, NoSuchElementException) as e:
+                print(f"Attempt {attempt} failed: {e}")
+                if attempt < retries:
+                    print(f"Retrying in {delay} seconds...")
+                    time.sleep(delay)
+                else:
+                    print("All retries failed")
+                    raise
 
     def click_reportbug(self):
         print("Will click on Report a Bug menu item")
