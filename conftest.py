@@ -30,7 +30,7 @@ MYSQL_PASS = os.getenv("MYSQL_PASSWORD")
 print("AFTER LOAD:")
 print("MYSQL_HOST =", os.getenv("MYSQL_URL"))
 print("MYSQL_USER =", os.getenv("MYSQL_USERNAME"))
-print("MYSQL_PASS =", os.getenv("MYSQL_PASSWORD"))
+print("MYSQL_PASS = ********")
 
 APPIUM_SERVER_URL = "http://127.0.0.1:4723"
 
