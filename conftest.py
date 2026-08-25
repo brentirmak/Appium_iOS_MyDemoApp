@@ -132,3 +132,7 @@ def mysql_logger():
 def open_simulator_gui():
     subprocess.run(["open", "-a", "Simulator"])
     yield
+
+@pytest.fixture
+def test_script(request):
+    return request.path.name

@@ -4,7 +4,8 @@ import time
 def execute_transaction(
         logger,
         transaction_name,
-        action):
+        action,
+        test_script):
 
     start_time = time.perf_counter()
 
@@ -21,7 +22,8 @@ def execute_transaction(
             transaction_name,
             "PASS",
             duration,
-            None
+            None,
+            test_script
         )
 
         return result
@@ -37,7 +39,8 @@ def execute_transaction(
             transaction_name,
             "FAIL",
             duration,
-            str(e)
+            str(e),
+            test_script
         )
 
         raise
