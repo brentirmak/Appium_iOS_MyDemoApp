@@ -103,11 +103,12 @@ def pytest_runtest_makereport(item, call):
 
         if logger:
             logger.log_result(
-                test_name=item.name,
-                status=status,
-                duration=duration,
-                error_message=error_message
-            )
+            test_name=item.name,
+            test_script=item.path.name,
+            status=status,
+            duration=duration,
+            error_message=error_message
+        )
             
 def pytest_configure(config):
     config.addinivalue_line("usefixtures", "db_logger")
