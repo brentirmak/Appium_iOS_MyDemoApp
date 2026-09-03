@@ -1,5 +1,6 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from pages.base_page import BasePage
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, TimeoutException
 
 
 class CheckoutPage(BasePage):
@@ -199,13 +200,30 @@ class CheckoutPage(BasePage):
         self.click(self.ADDRESS_2_FIELD)
         print("Clicked on Credit Card number field to help close keyboard popup")
 
-    def enter_creditcard_exp_date(self, creditcard_exp_date):
-        print("Will click on Credit Card Expiration Date field")
+def enter_creditcard_exp_date(self, creditcard_exp_date):
+    try:
+        print("First try - Will click on Credit Card Expiration Date field")
         self.click(self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD)
-        print("Clicked on Credit Card Expiration Date field")
-        print("Will enter credit card expiration date into the Credit Card Expiration Date field")
-        self.driver.find_element(*self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD).send_keys(creditcard_exp_date)
-        print("Entered credit card expiration date into the Credit Card Expiration Date field")
+        print("First try - Clicked on Credit Card Expiration Date field")
+        
+        print("First try - Will enter credit card expiration date into the Credit Card Expiration Date field")
+        element = self.driver.find_element(*self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD)
+        element.clear()
+        element.send_keys(creditcard_exp_date)
+        print("First try - Entered credit card expiration date into the Credit Card Expiration Date field")
+
+    except (NoSuchElementException, StaleElementReferenceException, TimeoutException) as e:
+        print(f"First try failed due to: {type(e).__name__}. Attempting second try...")
+        
+        print("Second try - Will click on Credit Card Expiration Date field")
+        self.click(self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD)
+        print("Second try - Clicked on Credit Card Expiration Date field")
+        
+        print("Second try - Will enter credit card expiration date into the Credit Card Expiration Date field")
+        element = self.driver.find_element(*self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD)
+        element.clear()
+        element.send_keys(creditcard_exp_date)
+        print("Second try - Entered credit card expiration date into the Credit Card Expiration Date field")
 
     def enter_creditcard_exp_date(self, creditcard_exp_date):
         print("Will click on Credit Card Expiration Date field")
