@@ -31,12 +31,27 @@ class Test_Order_BlackTShirt:
             lambda: (
                 product_page.click_product_sort_icon(376,89),
                 product_page.click_ascending_by_price_option(),
+                product_page.sauce_labs_bolt_tshirt_visible(),
+                #product_page.click_black_tshirt_image(),
+                #black_tshirt_page.header_visible(),
+                print("Black TShirt image is visible")
+            )
+        )
+        print("Ended test_01_sort_product_by_price transaction")
+
+        print("\nStarting test_02_click_black_tshirt transaction")
+        execute_transaction(
+            mysql_logger,
+            "test_02_click_black_tshirt",
+            lambda: (
+                #product_page.click_product_sort_icon(376,89),
+                #product_page.click_ascending_by_price_option(),
                 product_page.click_black_tshirt_image(),
                 black_tshirt_page.header_visible(),
                 print("Black TShirt header is visible")
             )
         )
-        print("Ended test_01_sort_product_by_price transaction")
+        print("Ended test_02_click_black_tshirt transaction")
 
         '''
         print("\nStarting test_02_proceed_to_checkout transaction")

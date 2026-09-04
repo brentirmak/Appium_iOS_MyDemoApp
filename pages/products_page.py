@@ -68,6 +68,10 @@ class ProductsPage(BasePage):
         self.click(self.ASCENDING_BY_PRICE_OPTION)
         print("Clicked on the Ascending by Price option")
 
+    def sauce_labs_bolt_tshirt_visible(self):
+        print("Will check if the Sauce Labs Bolt Tshirt is visible")
+        return self.is_visible(self.BLACK_TSHIRT_IMAGE)
+
     def click_black_tshirt_image(self):
         print("Will click on the Black TShirt image")
         self.click(self.BLACK_TSHIRT_IMAGE)
