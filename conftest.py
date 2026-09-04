@@ -37,6 +37,7 @@ APPIUM_SERVER_URL = "http://127.0.0.1:4723"
 CAPABILITIES = {
     "platformName": "ios",
     "appium:automationName": "xcuitest",
+    "appium:autoDismissAlerts": True,
     "appium:deviceName": "iPhone 17 Pro",
     "appium:platformVersion": "26.5",
     "appium:udid": "89681D14-673F-445A-80AA-351832829080",
