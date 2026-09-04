@@ -24,6 +24,12 @@ class BlackTShirtPage(BasePage):
         '//XCUIElementTypeStaticText[@name="Add To Cart"]'
     )
 
+    PRODUCT_DESCRIPTION = (
+        AppiumBy.XPATH,
+        '//XCUIElementTypeTextView[@value="Get your testing superhero on with the Sauce Labs '
+        'bolt T-Shirt. From American Apparel, 100% ringspun combed cotton gray red bolt."]'
+    )
+
     def header_visible(self):
         print("Will confirm that the Black TShirt page header is visible")
         return self.is_visible(self.BLACK_TSHIRT_HEADER)
@@ -41,3 +47,12 @@ class BlackTShirtPage(BasePage):
         print("Will click on the products back icon")
         self.click(self.PRODUCTS_LINK)
         print("Clicked on the products back icon")
+
+    def scroll_to_bottom_of_page(self):
+        print("Will scroll to the bottom of the page")
+        self.driver.execute_script("mobile: scroll", {"direction": "down"})
+        print("Scrolled to the bottom of the page")
+
+    def product_description_visible(self):
+        print("Will confirm that the product description is visible")
+        return self.is_visible(self.PRODUCT_DESCRIPTION)

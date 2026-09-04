@@ -32,8 +32,6 @@ class Test_Order_BlackTShirt:
                 product_page.click_product_sort_icon(376,89),
                 product_page.click_ascending_by_price_option(),
                 product_page.sauce_labs_bolt_tshirt_visible(),
-                #product_page.click_black_tshirt_image(),
-                #black_tshirt_page.header_visible(),
                 print("Black TShirt image is visible")
             )
         )
@@ -44,14 +42,25 @@ class Test_Order_BlackTShirt:
             mysql_logger,
             "test_02_click_black_tshirt",
             lambda: (
-                #product_page.click_product_sort_icon(376,89),
-                #product_page.click_ascending_by_price_option(),
                 product_page.click_black_tshirt_image(),
                 black_tshirt_page.header_visible(),
                 print("Black TShirt header is visible")
             )
         )
         print("Ended test_02_click_black_tshirt transaction")
+
+        print("\nStarting test_03_scroll_to_view_black_tshirt_desc transaction")
+        execute_transaction(
+            mysql_logger,
+            "test_03_scroll_to_view_black_tshirt_desc",
+            lambda: (
+                black_tshirt_page.scroll_to_bottom_of_page(),
+                black_tshirt_page.product_description_visible(),
+                print("Black TShirt description is visible")
+            )
+        )
+        print("Ended test_03_scroll_to_view_black_tshirt_desc transaction")
+
 
         '''
         print("\nStarting test_02_proceed_to_checkout transaction")
