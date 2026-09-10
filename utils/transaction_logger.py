@@ -3,6 +3,13 @@ import inspect
 from pathlib import Path
 
 
+def get_run_type() -> str:
+    """Detects if the script is running inside Jenkins or locally."""
+    jenkins_env_vars = ["JENKINS_URL", "BUILD_NUMBER", "JENKINS_HOME"]
+    if any(var in os.environ for var in jenkins_env_vars):
+        return "Jenkins"
+    return "Local"
+
 def execute_transaction(
         logger,
         transaction_name,
@@ -27,6 +34,9 @@ def execute_transaction(
         finally:
             del frame
 
+    # Determine execution environment
+    run_type = get_run_type()
+
     start_time = time.perf_counter()
 
     try:
@@ -43,7 +53,8 @@ def execute_transaction(
             status="PASS",
             duration=duration,
             error_message=None,
-            test_script=test_script
+            test_script=test_script,
+            run_type=run_type,  # Pass run_type to logger
         )
 
         return result
@@ -60,7 +71,8 @@ def execute_transaction(
             status="FAIL",
             duration=duration,
             error_message=str(e),
-            test_script=test_script
+            test_script=test_script,
+            run_type=run_type,  # Pass run_type to logger
         )
 
         raise

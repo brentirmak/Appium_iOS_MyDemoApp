@@ -34,16 +34,16 @@ class MySQLLogger:
 
         return self.conn
 
-    def log_result(self, test_name, status, duration, error_message, test_script):
+    def log_result(self, test_name, status, duration, error_message, test_script, run_type):
         """Insert a test result into the database."""
         self.connect()
 
         query = """
-            INSERT INTO appium_ios_mydemoapp (test_name, status, duration, error_message, executed_at, test_script)
-            VALUES (%s, %s, %s, %s, %s, %s)
+            INSERT INTO appium_ios_mydemoapp (test_name, status, duration, error_message, executed_at, test_script, run_type)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
 
-        self.cursor.execute(query, (test_name, status, duration, error_message, datetime.datetime.now(), test_script))
+        self.cursor.execute(query, (test_name, status, duration, error_message, datetime.datetime.now(), test_script, run_type))
         try:
             self.conn.commit()
         except Exception:
