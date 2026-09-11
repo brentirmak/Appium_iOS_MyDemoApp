@@ -15,7 +15,8 @@ def execute_transaction(
         logger,
         transaction_name,
         action,
-        test_script=None):
+        test_script=None,
+        run_type=None):
 
     # ---------------------------------------------------------
     # Automatically determine the pytest script filename
