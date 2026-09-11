@@ -52,6 +52,14 @@ CAPABILITIES = {
     "appium:connectHardwareKeyboard": True,
 }
 
+def get_run_type() -> str:
+    """Detects if the script is running inside Jenkins or locally."""
+    jenkins_env_vars = ["JENKINS_URL", "BUILD_NUMBER", "JENKINS_HOME"]
+    if any(var in os.environ for var in jenkins_env_vars):
+        return "Jenkins"
+    return "Local"
+
+
 # ---------------------------------------------------------
 # Appium driver fixture
 # ---------------------------------------------------------
@@ -86,6 +94,10 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
 
+    # Determine execution environment
+    run_type = get_run_type()
+
+
     if report.when == "call":
         duration = report.duration
 
@@ -109,7 +121,7 @@ def pytest_runtest_makereport(item, call):
             status=status,
             duration=duration,
             error_message=error_message,
-            run_type="pytest"
+            run_type=run_type
         )
             
 def pytest_configure(config):
