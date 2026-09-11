@@ -108,7 +108,8 @@ def pytest_runtest_makereport(item, call):
             test_script=item.path.name,
             status=status,
             duration=duration,
-            error_message=error_message
+            error_message=error_message,
+            run_type="pytest"
         )
             
 def pytest_configure(config):
