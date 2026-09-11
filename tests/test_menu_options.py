@@ -167,6 +167,7 @@ class Test_Menu_Options:
             lambda: (
                 menu_page.click_about(),
                 about_page.header_visible(),
+                about_page.about_page_text_visible(),
                 about_page.click_about_back_icon(),
                 menu_page.mydemoapp_logo_visible()
             )
