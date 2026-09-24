@@ -225,6 +225,7 @@ class CheckoutPage(BasePage):
             element.send_keys(creditcard_exp_date)
             print("Second try - Entered credit card expiration date into the Credit Card Expiration Date field")
 
+    '''
     def enter_creditcard_exp_date(self, creditcard_exp_date):
         print("Will click on Credit Card Expiration Date field")
         self.click(self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD)
@@ -232,6 +233,7 @@ class CheckoutPage(BasePage):
         print("Will enter credit card expiration date into the Credit Card Expiration Date field")
         self.driver.find_element(*self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD).send_keys(creditcard_exp_date)
         print("Entered credit card expiration date into the Credit Card Expiration Date field")
+    '''
 
     def enter_creditcard_secuirty_code(self, creditcard_security_code):
         print("Will click on Credit Card Security Code field")
