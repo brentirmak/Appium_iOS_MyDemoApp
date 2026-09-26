@@ -1,6 +1,9 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from pages.base_page import BasePage
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class CheckoutPage(BasePage):
@@ -178,7 +181,8 @@ class CheckoutPage(BasePage):
     def enter_payment_method_header_visible(self):
         print("Will check that payment method header is visible")
         return self.is_visible(self.ENTER_PAYMENT_METHOD_HEADER)
-    
+
+    '''
     def enter_creditcard_fullname(self, creditcard_fullname):
         print("Will click on Credit Card Full Name field")
         self.click(self.PAYMENT_FULLNAME_FIELD)
@@ -186,7 +190,26 @@ class CheckoutPage(BasePage):
         print("Will enter full name into the Credit Card Full Name field")
         self.driver.find_element(*self.PAYMENT_FULLNAME_FIELD).send_keys(creditcard_fullname)
         print("Entered full name into the Credit Card Full Name field")
-    
+    '''
+
+    def enter_creditcard_fullname(self, creditcard_fullname, timeout=10):
+        # 1. Wait until the field is visible AND enabled
+        field = WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(self.PAYMENT_FULLNAME_FIELD)
+        )
+        
+        # 2. Re-focus/click explicitly
+        field.click()
+        
+        # 3. Clear existing text safely before sending keys
+        field.clear()
+        field.send_keys(creditcard_fullname)
+        
+        # 4. Post-condition assertion: Verify the value actually registered
+        #assert field.get_attribute("value") == creditcard_fullname, \
+        #    f"Failed to enter full name. Expected '{creditcard_fullname}', but got '{field.get_attribute('value')}'"
+
+    '''
     def enter_creditcard_number(self, creditcard_number):
         print("Will click on Credit Card Number field")
         self.click(self.PAYMENT_CARDNUMBER_FIELD)
@@ -194,11 +217,42 @@ class CheckoutPage(BasePage):
         print("Will enter credit card into the Credit Card Number field")
         self.driver.find_element(*self.PAYMENT_CARDNUMBER_FIELD).send_keys(creditcard_number)
         print("Entered credit card into the Credit Card Number field")
+    '''
 
+    def enter_creditcard_number(self, creditcard_number):
+        print("Will wait for and click on Credit Card Number field")
+        
+        # 1. Wait until the element is present, visible, and interactable
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.element_to_be_clickable(self.PAYMENT_CARDNUMBER_FIELD))
+        
+        # 2. Focus and clear any pre-existing text
+        element.click()
+        element.clear()
+        
+        # 3. Enter credit card number
+        print("Will enter credit card into the Credit Card Number field")
+        element.send_keys(creditcard_number)
+        print("Entered credit card into the Credit Card Number field")
+
+    '''
     def click_creditcard_number_field(self):
         print("Will click on Credit Card number field to help close keyboard popup")
         self.click(self.ADDRESS_2_FIELD)
         print("Clicked on Credit Card number field to help close keyboard popup")
+    '''
+
+    def click_creditcard_number_field(self):
+        print("Will wait for and click on Address 2 field to help close keyboard popup")
+        
+        # Wait until the target element is present, visible, and interactable
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.element_to_be_clickable(self.ADDRESS_2_FIELD))
+        
+        # Perform click directly on the returned element
+        element.click()
+        print("Clicked on Address 2 field to help close keyboard popup")
+        
 
     def enter_creditcard_exp_date(self, creditcard_exp_date):
         try:
@@ -226,15 +280,6 @@ class CheckoutPage(BasePage):
             print("Second try - Entered credit card expiration date into the Credit Card Expiration Date field")
 
     '''
-    def enter_creditcard_exp_date(self, creditcard_exp_date):
-        print("Will click on Credit Card Expiration Date field")
-        self.click(self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD)
-        print("Clicked on Credit Card Expiration Date field")
-        print("Will enter credit card expiration date into the Credit Card Expiration Date field")
-        self.driver.find_element(*self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD).send_keys(creditcard_exp_date)
-        print("Entered credit card expiration date into the Credit Card Expiration Date field")
-    '''
-
     def enter_creditcard_secuirty_code(self, creditcard_security_code):
         print("Will click on Credit Card Security Code field")
         self.click(self.PAYMENT_CARDNUMBER_SEC_CODE_FIELD)
@@ -242,7 +287,24 @@ class CheckoutPage(BasePage):
         print("Will enter credit card security code into the Credit Card Security Code field")
         self.driver.find_element(*self.PAYMENT_CARDNUMBER_SEC_CODE_FIELD).send_keys(creditcard_security_code)
         print("Entered credit card security code into the Credit Card Security Code field")
+    '''
 
+    def enter_creditcard_secuirty_code(self, creditcard_security_code):
+        print("Will wait for and click on Credit Card Security Code field")
+        
+        # 1. Wait until the security code field is present, visible, and interactable
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.element_to_be_clickable(self.PAYMENT_CARDNUMBER_SEC_CODE_FIELD))
+        
+        # 2. Focus and clear any existing input
+        element.click()
+        element.clear()
+        
+        # 3. Enter the security code directly into the waited element
+        print("Will enter credit card security code into the Credit Card Security Code field")
+        element.send_keys(creditcard_security_code)
+        print("Entered credit card security code into the Credit Card Security Code field")
+        
     def click_review_order_button(self):
         print("Will click on Review Order button")
         self.click(self.REVIEW_ORDER_BUTTON)
