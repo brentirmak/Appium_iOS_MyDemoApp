@@ -4,21 +4,14 @@ import time
 
 class WebViewPage(BasePage):
 
-    URL_FIELD = (
-        AppiumBy.XPATH,
-        '//XCUIElementTypeStaticText[@name="Enter an https URL"]'
-    )
+    URL_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="Enter an https URL"]')
+    MORE_BACK_ARROW = (AppiumBy.ACCESSIBILITY_ID,"More-tab-item")
 
-    MORE_BACK_ARROW = (
-        AppiumBy.ACCESSIBILITY_ID,
-        "More-tab-item"
-    )
-
-    def url_field_visible(self):
+    def url_field_visible(self, timeout=30):
         print("Will check that the URL field is visible")
         return self.is_visible(self.URL_FIELD)
 
-    def navigate_back(self):
+    def navigate_back(self, timeout=30):
         print("Will click on the Back button")
 
         # Switch back to native before clicking
@@ -30,7 +23,7 @@ class WebViewPage(BasePage):
     # ---------------------------------------------------------
     # Correct WebView context switching
     # ---------------------------------------------------------
-    def wait_for_webview_context(self, timeout=15):
+    def wait_for_webview_context(self, timeout=30):
         """
         Wait until a WEBVIEW context appears, then switch into it.
         This is required because hybrid apps load WebViews asynchronously.
