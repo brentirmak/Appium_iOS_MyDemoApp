@@ -62,8 +62,6 @@ class Test_Menu_Options:
             lambda: (
                 menu_page.click_qrcodescanner(),
                 qrcodescanner_page.header_visible(),
-                #qrcodescanner_page.click_do_not_allow_button(),
-                #qrcodescanner_page.click_access_denied_ok_button(),
                 qrcodescanner_page.click_back_button(),
                 menu_page.mydemoapp_logo_visible()
             )
