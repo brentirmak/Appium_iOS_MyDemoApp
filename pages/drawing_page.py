@@ -4,12 +4,9 @@ from pages.base_page import BasePage
 
 class DrawingPage(BasePage):
 
-    DRAWING_HEADER = (
-        AppiumBy.XPATH,
-        '//XCUIElementTypeStaticText[@name="Drawing"]'
-    )
+    DRAWING_HEADER = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="Drawing"]')
 
-    def header_visible(self):
+    def header_visible(self, timeout=30):
         print("Will check if Drawing header is visible")
         return self.is_visible(self.DRAWING_HEADER)
 
