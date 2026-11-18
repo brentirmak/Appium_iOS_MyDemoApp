@@ -3,3 +3,4 @@ selenium==4.20.0
 pytest==8.2.0
 mysql-connector-python>=9.0.0
 python-dotenv==1.2.1
+resend==2.3.0
