@@ -22,6 +22,8 @@ class Test_Menu_Options:
             driver,
             mysql_logger):
 
+        assert False, "TEMPORARY FAILURE TEST - verify screenshot and email alert"
+
         # Sequence/execution order
         home_page = HomePage(driver)
         menu_page = MenuPage(driver)
