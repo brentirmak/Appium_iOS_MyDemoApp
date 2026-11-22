@@ -3,6 +3,10 @@ import inspect
 from pathlib import Path
 import os
 
+# Keep stored error text within your MySQL column. Selenium/Appium messages can be
+# very long (full stack traces). Adjust to match the actual column size.
+MAX_ERROR_LEN = 1000
+
 
 def get_run_type() -> str:
     """Detects if the script is running inside Jenkins or locally."""
@@ -10,6 +14,17 @@ def get_run_type() -> str:
     if any(var in os.environ for var in jenkins_env_vars):
         return "Jenkins"
     return "Local"
+
+
+def _safe_log(logger, **kwargs):
+    """Log a result without ever letting a logging problem (DB down, column too
+    short, etc.) replace the real test outcome."""
+    try:
+        logger.log_result(**kwargs)
+    except Exception as log_err:
+        print(f"WARNING: could not log {kwargs.get('status')} for "
+              f"{kwargs.get('test_name')}: {log_err}")
+
 
 def execute_transaction(
         logger,
@@ -36,45 +51,42 @@ def execute_transaction(
         finally:
             del frame
 
-    # Determine execution environment
-    run_type = get_run_type()
+    # Determine execution environment unless the caller supplied one
+    if run_type is None:
+        run_type = get_run_type()
 
     start_time = time.perf_counter()
 
     try:
-
         result = action()
 
-        duration = round(
-            time.perf_counter() - start_time,
-            3
-        )
-
-        logger.log_result(
-            test_name=transaction_name,
-            status="PASS",
-            duration=duration,
-            error_message=None,
-            test_script=test_script,
-            run_type=run_type,  # Pass run_type to logger
-        )
-
-        return result
-
     except Exception as e:
+        duration = round(time.perf_counter() - start_time, 3)
 
-        duration = round(
-            time.perf_counter() - start_time,
-            3
-        )
-
-        logger.log_result(
+        _safe_log(
+            logger,
             test_name=transaction_name,
             status="FAIL",
             duration=duration,
-            error_message=str(e),
+            error_message=(str(e) or type(e).__name__)[:MAX_ERROR_LEN],
             test_script=test_script,
-            run_type=run_type,  # Pass run_type to logger
+            run_type=run_type,
         )
 
+        # Always re-raise: a failed transaction must stop the test so later steps
+        # do not run against the wrong screen.
         raise
+
+    duration = round(time.perf_counter() - start_time, 3)
+
+    _safe_log(
+        logger,
+        test_name=transaction_name,
+        status="PASS",
+        duration=duration,
+        error_message=None,
+        test_script=test_script,
+        run_type=run_type,
+    )
+
+    return result

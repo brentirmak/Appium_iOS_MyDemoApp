@@ -11,7 +11,11 @@ from appium.options.common.base import AppiumOptions
 
 from utils.db import MySQLLogger
 from utils.screenshot_manager import capture_screenshot
-from utils.resend_email import send_failure_email
+try:
+    from utils.resend_email import send_failure_email
+except ImportError as exc:
+    send_failure_email = None
+    print(f"[Alert] Resend email disabled: {exc}")
 
 
 # ---------------------------------------------------------
@@ -169,7 +173,8 @@ def trigger_first_failure_alert(item, report):
         test_name=test_name,
         output_dir=PROJECT_ROOT / "screenshots"
     )
-
+    if send_failure_email is None:
+        return
     # Send one Resend email.
     try:
 
