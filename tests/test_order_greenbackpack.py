@@ -1,4 +1,3 @@
-
 from pages.menu_page import MenuPage
 from pages.login_page import LoginPage
 from pages.products_page import ProductsPage
@@ -6,7 +5,7 @@ from pages.greenbackpack_page import GreenBackpackPage
 from pages.cart_page import CartPage
 from pages.checkout_page import CheckoutPage
 from utils.transaction_logger import execute_transaction
-import time
+
 
 class Test_Order_GreenBackPack:
 
@@ -23,7 +22,6 @@ class Test_Order_GreenBackPack:
         checkout_page = CheckoutPage(driver)
         menu_page = MenuPage(driver)
 
-        
         print("\nStarting test_01_select_product transaction")
         execute_transaction(
             mysql_logger,
@@ -66,7 +64,10 @@ class Test_Order_GreenBackPack:
         )
         print("Ended test_03_login transaction")
 
-
+        # Each enter_* call focuses, clears, types and verifies the field. The old
+        # click_address_line_2_field()/click_creditcard_number_field() keyboard workarounds
+        # are no longer needed: fill() dismisses the keyboard itself, and
+        # click_to_payment_button()/click_review_order_button() confirm the next page appeared.
         print("\nStarting test_04_enter_shipping_info transaction")
         execute_transaction(
             mysql_logger,
@@ -76,20 +77,15 @@ class Test_Order_GreenBackPack:
                 checkout_page.enter_address_line_1("123 Street"),
                 checkout_page.enter_address_line_2("#456"),
                 checkout_page.enter_city("Sunnyvale"),
-                checkout_page.click_address_line_2_field(),
                 checkout_page.enter_state("California"),
-                checkout_page.click_address_line_2_field(),
                 checkout_page.enter_zipcode("94087"),
-                checkout_page.click_address_line_2_field(),
                 checkout_page.enter_country("USA"),
-                checkout_page.click_address_line_2_field(),
                 checkout_page.click_to_payment_button(),
                 checkout_page.enter_payment_method_header_visible(),
                 print("Enter payment method header is visible")
             )
         )
         print("Ended test_04_enter_shipping_info transaction")
-
 
         print("\nStarting test_05_enter_payment_info transaction")
         execute_transaction(
@@ -99,9 +95,7 @@ class Test_Order_GreenBackPack:
                 checkout_page.enter_creditcard_fullname("Test User"),
                 checkout_page.enter_creditcard_number("1234123412341234"),
                 checkout_page.enter_creditcard_exp_date("03/28"),
-                checkout_page.click_creditcard_number_field(),
-                checkout_page.enter_creditcard_secuirty_code("123"),
-                checkout_page.click_creditcard_number_field(),
+                checkout_page.enter_creditcard_security_code("123"),
                 checkout_page.click_review_order_button(),
                 checkout_page.review_your_order_header_visible(),
                 print("Review your order header is visible")
@@ -129,4 +123,3 @@ class Test_Order_GreenBackPack:
             )
         )
         print("Ended test_06_place_order_and_cleanup transaction")
-

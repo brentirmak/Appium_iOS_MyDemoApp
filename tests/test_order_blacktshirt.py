@@ -1,4 +1,3 @@
-
 from pages.menu_page import MenuPage
 from pages.login_page import LoginPage
 from pages.products_page import ProductsPage
@@ -6,7 +5,8 @@ from pages.black_tshirt_page import BlackTShirtPage
 from pages.cart_page import CartPage
 from pages.checkout_page import CheckoutPage
 from utils.transaction_logger import execute_transaction
-import time
+#from pathlib import Path
+
 
 class Test_Order_BlackTShirt:
 
@@ -23,13 +23,14 @@ class Test_Order_BlackTShirt:
         checkout_page = CheckoutPage(driver)
         menu_page = MenuPage(driver)
 
-        
         print("\nStarting test_01_sort_product_by_price transaction")
         execute_transaction(
             mysql_logger,
             "test_01_sort_product_by_price",
             lambda: (
-                product_page.click_product_sort_icon(376,89),
+                # TODO: hardcoded coordinates break across devices/orientations.
+                # Replace with a locator for the sort icon.
+                product_page.click_product_sort_icon(376, 89),
                 product_page.click_ascending_by_price_option(),
                 product_page.sauce_labs_bolt_tshirt_visible(),
                 print("Black TShirt image is visible")
@@ -68,14 +69,13 @@ class Test_Order_BlackTShirt:
             lambda: (
                 black_tshirt_page.click_product_plus_button(),
                 black_tshirt_page.capture_product_quantity(),
-                black_tshirt_page.click_add_to_cart_button(),                
+                black_tshirt_page.click_add_to_cart_button(),
                 black_tshirt_page.cart_with_two_items_visible(),
                 print("Cart with two items is visible"),
                 print("Added Black TShirts to cart")
             )
         )
         print("Ended test_04_add_black_tshirts_to_cart transaction")
-
 
         print("\nStarting test_05_proceed_to_checkout transaction")
         execute_transaction(
@@ -90,7 +90,6 @@ class Test_Order_BlackTShirt:
             )
         )
         print("Ended test_05_proceed_to_checkout transaction")
-        
 
         print("\nStarting test_06_login transaction")
         execute_transaction(
@@ -101,11 +100,17 @@ class Test_Order_BlackTShirt:
                 login_page.enter_password("10203040"),
                 login_page.click_login_button(),
                 checkout_page.header_visible(),
+                #Path("shipping_page.xml").write_text(driver.page_source),
                 print("Checkout header is visible")
             )
         )
         print("Ended test_06_login transaction")
 
+        # Each enter_* call focuses, clears, types and (where possible) verifies the
+        # field. The old click_address_line_2_field()/click_creditcard_number_field()
+        # keyboard workarounds are no longer needed; click_to_payment_button() and
+        # click_review_order_button() dismiss the keyboard themselves and confirm the
+        # next page appeared.
         print("\nStarting test_07_enter_shipping_info transaction")
         execute_transaction(
             mysql_logger,
@@ -115,15 +120,12 @@ class Test_Order_BlackTShirt:
                 checkout_page.enter_address_line_1("123 Street"),
                 checkout_page.enter_address_line_2("#456"),
                 checkout_page.enter_city("Sunnyvale"),
-                checkout_page.click_address_line_2_field(),
                 checkout_page.enter_state("California"),
-                checkout_page.click_address_line_2_field(),
                 checkout_page.enter_zipcode("94087"),
-                checkout_page.click_address_line_2_field(),
                 checkout_page.enter_country("USA"),
-                checkout_page.click_address_line_2_field(),
                 checkout_page.click_to_payment_button(),
                 checkout_page.enter_payment_method_header_visible(),
+                #Path("payment_page.xml").write_text(driver.page_source),
                 print("Enter payment method header is visible")
             )
         )
@@ -137,9 +139,7 @@ class Test_Order_BlackTShirt:
                 checkout_page.enter_creditcard_fullname("Test User"),
                 checkout_page.enter_creditcard_number("1234123412341234"),
                 checkout_page.enter_creditcard_exp_date("03/28"),
-                checkout_page.click_creditcard_number_field(),
-                checkout_page.enter_creditcard_secuirty_code("123"),
-                checkout_page.click_creditcard_number_field(),
+                checkout_page.enter_creditcard_security_code("123"),
                 checkout_page.click_review_order_button(),
                 checkout_page.review_your_order_header_visible(),
                 print("Review your order header is visible")
@@ -167,4 +167,3 @@ class Test_Order_BlackTShirt:
             )
         )
         print("Ended test_09_place_order_and_cleanup transaction")
-        

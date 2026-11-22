@@ -1,222 +1,182 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from pages.base_page import BasePage
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, TimeoutException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
+
+def _field_below_label(label, screen=None):
+    """The TextField that follows a StaticText label (label -> following sibling wrapper ->
+    XCUIElementTypeTextField), optionally scoped to a screen by its accessibility name.
+    Verified against the shipping and payment page sources."""
+    scope = f'//XCUIElementTypeOther[@name="{screen}"]' if screen else ""
+    return (AppiumBy.XPATH,
+            f'{scope}//XCUIElementTypeStaticText[@name="{label}"]'
+            f'/following-sibling::XCUIElementTypeOther[1]/XCUIElementTypeTextField')
 
 
 class CheckoutPage(BasePage):
 
-    CHECKOUT_HEADER = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="Checkout"]')
-    FULLNAME_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]')
-    ADDRESS_1_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[2]')
-    ADDRESS_2_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[3]')
-    CITY_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[4]/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther')
-    STATE_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[4]/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther[1]/XCUIElementTypeOther')
-    ZIPCODE_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[4]/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeOther[2]/XCUIElementTypeOther')
-    COUNTRY_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[4]/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther[2]/XCUIElementTypeOther')
-    TO_PAYMENT_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeButton[@name="To Payment"]')
-    ENTER_PAYMENT_METHOD_HEADER = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="Enter a payment method"]')
-    PAYMENT_FULLNAME_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[3]')
-    PAYMENT_CARDNUMBER_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[4]')
-    PAYMENT_CARDNUMBER_EXP_DATE_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[5]/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeOther')
-    PAYMENT_CARDNUMBER_EXP_DATE_CLEAR_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeTextField/XCUIElementTypeButton')
-    PAYMENT_CARDNUMBER_SEC_CODE_FIELD = (AppiumBy.XPATH,'//XCUIElementTypeScrollView/XCUIElementTypeOther[1]/XCUIElementTypeOther[5]/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther')
-    REVIEW_ORDER_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeButton[@name="Review Order"]')
-    REVIEW_YOUR_ORDER_HEADER = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="Review your order"]')
-    PLACE_ORDER_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeButton[@name="Place Order"]')
-    CHECKOUT_COMPLETE_HEADER = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="Checkout Complete"]')
-    CONTINUE_SHOPPING_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeButton[@name="ContinueShopping"]')
+    # Shipping and payment fields use label-relative locators on the real TextFields
+    # (verified against shipping_page.xml and payment_page.xml), so fill() verifies what
+    # was typed. Both sets are scoped to their screen container ("ShippingAddress-screen" /
+    # "Payment-screen"), because labels such as "Full Name*" appear on both pages.
+    CHECKOUT_HEADER = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[@name="Checkout"]')
+    FULLNAME_FIELD = _field_below_label("Full Name*", screen="ShippingAddress-screen")
+    ADDRESS_1_FIELD = _field_below_label("Address Line 1*", screen="ShippingAddress-screen")
+    ADDRESS_2_FIELD = _field_below_label("Address Line 2", screen="ShippingAddress-screen")
+    CITY_FIELD = _field_below_label("City*", screen="ShippingAddress-screen")
+    STATE_FIELD = _field_below_label("State/Region", screen="ShippingAddress-screen")
+    ZIPCODE_FIELD = _field_below_label("Zip Code*", screen="ShippingAddress-screen")
+    COUNTRY_FIELD = _field_below_label("Country*", screen="ShippingAddress-screen")
+    TO_PAYMENT_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeButton[@name="To Payment"]')
+    ENTER_PAYMENT_METHOD_HEADER = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[@name="Enter a payment method"]')
+    PAYMENT_FULLNAME_FIELD = _field_below_label("Full Name*", screen="Payment-screen")
+    PAYMENT_CARDNUMBER_FIELD = _field_below_label("Card Number*", screen="Payment-screen")
+    PAYMENT_CARDNUMBER_EXP_DATE_FIELD = _field_below_label("Expiration Date*", screen="Payment-screen")
+    PAYMENT_CARDNUMBER_EXP_DATE_CLEAR_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeTextField/XCUIElementTypeButton')
+    PAYMENT_CARDNUMBER_SEC_CODE_FIELD = _field_below_label("Security Code*", screen="Payment-screen")
+    REVIEW_ORDER_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeButton[@name="Review Order"]')
+    REVIEW_YOUR_ORDER_HEADER = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[@name="Review your order"]')
+    PLACE_ORDER_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeButton[@name="Place Order"]')
+    CHECKOUT_COMPLETE_HEADER = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[@name="Checkout Complete"]')
+    CONTINUE_SHOPPING_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeButton[@name="ContinueShopping"]')
+    SHIPPING_HEADER = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[@name="Enter a shipping address"]')
 
-    def click_clear_expiration_date_button(self, timeout=30):
-        print("Will click on the clear button associated with the Credit Card expiration date")
-        self.click(self.PAYMENT_CARDNUMBER_EXP_DATE_CLEAR_BUTTON)
-        print("Clicked on the clear button")
+    # Tapping a text field dismisses the keyboard in this app (this is what the original
+    # "click Address Line 2" workaround relied on). First displayed target is tapped:
+    # Address Line 2 on the shipping page; on the payment page that label does not exist,
+    # so the payment Full Name field (the field the original workaround hit there) is used.
+    KEYBOARD_DISMISS_TARGETS = (ADDRESS_2_FIELD, PAYMENT_FULLNAME_FIELD)
 
-    def enter_fullname(self, fullname, timeout=30):
-        print("Will click on Full Name field")
-        self.click(self.FULLNAME_FIELD)
-        print("Clicked on Full Name field")
-        print("Will enter full name into the Full Name field")
-        self.driver.find_element(*self.FULLNAME_FIELD).send_keys(fullname)
-        print("Entered full name into the Full Name field")
-    
-    def enter_address_line_1(self, address_1, timeout=30):
-        print("Will click on Address Line 1 field")
-        self.click(self.ADDRESS_1_FIELD)
-        print("Clicked on Address Line 1 field")
-        print("Will enter address into the Address Line 1 field")
-        self.driver.find_element(*self.ADDRESS_1_FIELD).send_keys(address_1)
-        print("Entered address into the Address 1 field")
-    
-    def enter_address_line_2(self, address_2, timeout=30):
-        print("Will click on Address Line 2 field")
-        self.click(self.ADDRESS_2_FIELD)
-        print("Clicked on Address Line 2 field")
-        print("Will enter address into the Address Line 2 field")
-        self.driver.find_element(*self.ADDRESS_2_FIELD).send_keys(address_2)
-        print("Entered address into the Address 2 field")
-    
-    def enter_city(self, city, timeout=30):
-        print("Will click on Address Line 1 field")
-        self.click(self.CITY_FIELD)
-        print("Clicked on City field")
-        print("Will enter city into the City field")
-        self.driver.find_element(*self.CITY_FIELD).send_keys(city)
-        print("Entered city into the City field")
-    
-    def enter_state(self, state, timeout=30):
-        print("Will click on State field")
-        self.click(self.STATE_FIELD)
-        print("Clicked on State field")
-        print("Will enter state into the State field")
-        self.driver.find_element(*self.STATE_FIELD).send_keys(state)
-        print("Entered state into the State field")
+    # ---------------------------
+    # Shipping address
+    # ---------------------------
+    def enter_fullname(self, fullname, timeout=15):
+        print("Entering Full Name")
+        self.fill(self.FULLNAME_FIELD, fullname, name="Full Name", timeout=timeout)
 
-    def enter_zipcode(self, zipcode, timeout=30):
-        print("Will click on ZipCode field")
-        self.click(self.ZIPCODE_FIELD)
-        print("Clicked on Zip Code field")
-        print("Will enter zip code into the Zip Code field")
-        self.driver.find_element(*self.ZIPCODE_FIELD).send_keys(zipcode)
-        print("Entered zip code into the Zip Code field")
+    def enter_address_line_1(self, address_1, timeout=15):
+        print("Entering Address Line 1")
+        self.fill(self.ADDRESS_1_FIELD, address_1, name="Address Line 1", timeout=timeout)
 
-    def enter_country(self, country, timeout=30):
-        print("Will click on Country field")
-        self.click(self.COUNTRY_FIELD)
-        print("Clicked on Country field")
-        print("Will enter country into the Country field")
-        self.driver.find_element(*self.COUNTRY_FIELD).send_keys(country)
-        print("Entered country into the Country field")
+    def enter_address_line_2(self, address_2, timeout=15):
+        print("Entering Address Line 2")
+        self.fill(self.ADDRESS_2_FIELD, address_2, name="Address Line 2", timeout=timeout)
 
-    def click_address_line_2_field(self, timeout=30):
-        print("Will click on Address 2 field to help close keyboard popup")
-        self.click(self.ADDRESS_2_FIELD)
-        print("Clicked on Address 2 field to help close keyboard popup")
+    def enter_city(self, city, timeout=15):
+        print("Entering City")
+        self.fill(self.CITY_FIELD, city, name="City", timeout=timeout)
 
-    def click_to_payment_button(self, timeout=30):
+    def enter_state(self, state, timeout=15):
+        print("Entering State")
+        self.fill(self.STATE_FIELD, state, name="State", timeout=timeout)
+
+    def enter_zipcode(self, zipcode, timeout=15):
+        print("Entering Zip Code")
+        self.fill(self.ZIPCODE_FIELD, zipcode, name="Zip Code", timeout=timeout)
+
+    def enter_country(self, country, timeout=15):
+        print("Entering Country")
+        self.fill(self.COUNTRY_FIELD, country, name="Country", timeout=timeout)
+
+    def click_address_line_2_field(self, timeout=15):
+        # Kept so existing tests keep working. This used to tap Address Line 2,
+        # which re-focused a text field and left it as the default target for stray
+        # keystrokes. It now just dismisses the keyboard.
+        print("Dismissing keyboard")
+        self.hide_keyboard()
+
+    def click_to_payment_button(self, timeout=15):
         print("Will click on To Payment button")
-        self.click(self.TO_PAYMENT_BUTTON)
-        print("Clicked on To Payment button")
-        
+        self.hide_keyboard()
+        self.click_when_ready(self.TO_PAYMENT_BUTTON, timeout)
+        # Fail here, not three steps later, if the tap did not navigate
+        self.enter_payment_method_header_visible(timeout)
+        print("Payment page is displayed")
+
+    # ---------------------------
+    # Headers / page checks (these now raise AssertionError on failure)
+    # ---------------------------
     def header_visible(self, timeout=30):
         print("Will check if Checkout header is visible")
-        return self.is_visible(self.CHECKOUT_HEADER)
-    
-    def click_header(self, timeout=30):
+        return self.assert_visible(self.CHECKOUT_HEADER, timeout,
+                                   "Checkout page did not appear")
+
+    def click_header(self, timeout=15):
         print("Will click on Checkout header")
-        self.click(self.CHECKOUT_HEADER)
-        print("Clicked on Checkout header")
-    
-    def enter_payment_method_header_visible(self, timeout=30):
+        self.click(self.CHECKOUT_HEADER, timeout)
+
+    def enter_payment_method_header_visible(self, timeout=15):
         print("Will check that payment method header is visible")
-        return self.is_visible(self.ENTER_PAYMENT_METHOD_HEADER)
+        return self.assert_visible(self.ENTER_PAYMENT_METHOD_HEADER, timeout,
+                                   "Payment page did not appear after tapping To Payment")
 
-    def enter_creditcard_fullname(self, creditcard_fullname, timeout=30):
-        # 1. Wait until the field is visible AND enabled
-        field = WebDriverWait(self.driver, timeout).until(
-            EC.element_to_be_clickable(self.PAYMENT_FULLNAME_FIELD)
-        )
-        
-        # 2. Re-focus/click explicitly
-        field.click()
-        
-        # 3. Clear existing text safely before sending keys
-        field.clear()
-        field.send_keys(creditcard_fullname)
-        
-    def enter_creditcard_number(self, creditcard_number, timeout=30):
-        print("Will wait for and click on Credit Card Number field")
-        
-        # 1. Wait until the element is present, visible, and interactable
-        wait = WebDriverWait(self.driver, 30)
-        element = wait.until(EC.element_to_be_clickable(self.PAYMENT_CARDNUMBER_FIELD))
-        
-        # 2. Focus and clear any pre-existing text
-        element.click()
-        element.clear()
-        
-        # 3. Enter credit card number
-        print("Will enter credit card into the Credit Card Number field")
-        element.send_keys(creditcard_number)
-        print("Entered credit card into the Credit Card Number field")
-
-    def click_creditcard_number_field(self, timeout=30):
-        print("Will wait for and click on Address 2 field to help close keyboard popup")
-        
-        # Wait until the target element is present, visible, and interactable
-        wait = WebDriverWait(self.driver, 30)
-        element = wait.until(EC.element_to_be_clickable(self.ADDRESS_2_FIELD))
-        
-        # Perform click directly on the returned element
-        element.click()
-        print("Clicked on Address 2 field to help close keyboard popup")
-        
-    def enter_creditcard_exp_date(self, creditcard_exp_date, timeout=30):
-        try:
-            print("First try - Will click on Credit Card Expiration Date field")
-            self.click(self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD)
-            print("First try - Clicked on Credit Card Expiration Date field")
-
-            self.click_clear_expiration_date_button()
-            
-            print("First try - Will enter credit card expiration date into the Credit Card Expiration Date field")
-            element = self.driver.find_element(*self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD)
-            element.clear()
-            element.send_keys(creditcard_exp_date)
-            print("First try - Entered credit card expiration date into the Credit Card Expiration Date field")
-
-        except (NoSuchElementException, StaleElementReferenceException, TimeoutException) as e:
-            print(f"First try failed due to: {type(e).__name__}. Attempting second try...")
-
-            self.click_clear_expiration_date_button()
-            
-            print("Second try - Will click on Credit Card Expiration Date field")
-            self.click(self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD)
-            print("Second try - Clicked on Credit Card Expiration Date field")
-            
-            print("Second try - Will enter credit card expiration date into the Credit Card Expiration Date field")
-            element = self.driver.find_element(*self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD)
-            element.clear()
-            element.send_keys(creditcard_exp_date)
-            print("Second try - Entered credit card expiration date into the Credit Card Expiration Date field")
-
-    def enter_creditcard_secuirty_code(self, creditcard_security_code, timeout=30):
-        print("Will wait for and click on Credit Card Security Code field")
-        
-        # 1. Wait until the security code field is present, visible, and interactable
-        wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.element_to_be_clickable(self.PAYMENT_CARDNUMBER_SEC_CODE_FIELD))
-        
-        # 2. Focus and clear any existing input
-        element.click()
-        element.clear()
-        
-        # 3. Enter the security code directly into the waited element
-        print("Will enter credit card security code into the Credit Card Security Code field")
-        element.send_keys(creditcard_security_code)
-        print("Entered credit card security code into the Credit Card Security Code field")
-        
-    def click_review_order_button(self, timeout=30):
-        print("Will click on Review Order button")
-        self.click(self.REVIEW_ORDER_BUTTON)
-        print("Clicked on Review Order button")
-
-    def review_your_order_header_visible(self, timeout=30):
+    def review_your_order_header_visible(self, timeout=15):
         print("Will check if Review your order header is visible")
-        return self.is_visible(self.REVIEW_YOUR_ORDER_HEADER)
-    
-    def click_place_order_button(self, timeout=30):
-        print("Will click on Place Order button")
-        self.click(self.PLACE_ORDER_BUTTON)
-        print("Clicked on Place Order button")
+        return self.assert_visible(self.REVIEW_YOUR_ORDER_HEADER, timeout,
+                                   "Review your order page did not appear")
 
     def checkout_complete_header_visible(self, timeout=30):
         print("Will check if Checkout Complete header is visible")
-        return self.is_visible(self.CHECKOUT_COMPLETE_HEADER)
-    
-    def click_continue_shopping_button(self, timeout=30):
+        return self.assert_visible(self.CHECKOUT_COMPLETE_HEADER, timeout,
+                                   "Checkout Complete page did not appear")
+
+    # ---------------------------
+    # Payment
+    # ---------------------------
+    def enter_creditcard_fullname(self, creditcard_fullname, timeout=15):
+        print("Entering Credit Card Full Name")
+        self.fill(self.PAYMENT_FULLNAME_FIELD, creditcard_fullname,
+                  name="Credit Card Full Name", timeout=timeout)
+
+    def enter_creditcard_number(self, creditcard_number, timeout=15):
+        print("Entering Credit Card Number")
+        self.fill(self.PAYMENT_CARDNUMBER_FIELD, creditcard_number,
+                  name="Credit Card Number", timeout=timeout)
+
+    def click_clear_expiration_date_button(self, timeout=10):
+        print("Will click on the clear button associated with the Credit Card expiration date")
+        self.click(self.PAYMENT_CARDNUMBER_EXP_DATE_CLEAR_BUTTON, timeout)
+
+    def enter_creditcard_exp_date(self, creditcard_exp_date, timeout=15):
+        print("Entering Credit Card Expiration Date")
+        # Type digits only. Typing "03/28" left the field showing "03": the "/" appears to
+        # stall the input (numeric keypad has no "/" key), so "28" was never entered.
+        # The field's mask is expected to insert the "/" itself.
+        digits = "".join(ch for ch in creditcard_exp_date if ch.isdigit())
+        element = self.fill(self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD, digits,
+                            name="Expiration Date", timeout=timeout)
+        try:
+            print(f"Expiration Date field now shows {element.get_attribute('value')!r}")
+        except Exception:
+            pass
+
+    def enter_creditcard_security_code(self, creditcard_security_code, timeout=15):
+        print("Entering Credit Card Security Code")
+        self.fill(self.PAYMENT_CARDNUMBER_SEC_CODE_FIELD, creditcard_security_code,
+                  name="Security Code", timeout=timeout)
+
+    # Original (misspelled) name kept so the existing test keeps working
+    enter_creditcard_secuirty_code = enter_creditcard_security_code
+
+    def click_creditcard_number_field(self, timeout=15):
+        # Previously tapped the Address 2 locator, which on this screen is the payment
+        # Full Name field. Now only dismisses the keyboard.
+        print("Dismissing keyboard")
+        self.hide_keyboard()
+
+    def click_review_order_button(self, timeout=15):
+        print("Will click on Review Order button")
+        self.hide_keyboard()
+        self.click_when_ready(self.REVIEW_ORDER_BUTTON, timeout)
+        self.review_your_order_header_visible(timeout)
+
+    # ---------------------------
+    # Place order
+    # ---------------------------
+    def click_place_order_button(self, timeout=15):
+        print("Will click on Place Order button")
+        self.click_when_ready(self.PLACE_ORDER_BUTTON, timeout)
+        self.checkout_complete_header_visible()
+
+    def click_continue_shopping_button(self, timeout=15):
         print("Will click on Continue Shopping button")
-        self.click(self.CONTINUE_SHOPPING_BUTTON)
-        print("Clicked on Continue Shopping button")
+        self.click(self.CONTINUE_SHOPPING_BUTTON, timeout)
