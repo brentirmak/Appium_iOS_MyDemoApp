@@ -16,10 +16,11 @@ class FleecePage(BasePage):
         print("Will confirm that the Fleece page header is visible")
         return self.is_visible(self.FLEECE_HEADER)
 
-    def click_plus_icon(self, timeout=30):
-        print("Will click on the plus icon")
-        self.click(self.PLUS_ICON)
-        print("Clicked on the plus icon")
+    def click_plus_icon(self, number_of_plus_clicks, timeout=30):
+        print(f"Will click on the plus icon {number_of_plus_clicks} times")
+        for i in range(1,15):
+            self.click(self.PLUS_ICON)
+        print(f"Clicked on the plus icon {number_of_plus_clicks} times")
     
     def cart_with_fifteen_items_visible(self, timeout=30):
         print("Will confirm that the cart with fifteen items is visible")

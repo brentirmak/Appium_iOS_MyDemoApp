@@ -25,28 +25,53 @@ class ProductsPage(BasePage):
     BLACK_TSHIRT_IMAGE = (AppiumBy.IOS_PREDICATE, 'name == "Product Name" AND label == "Sauce Labs Bolt T-Shirt - Black"')
     
 
-    def scroll_down_to_element(self, locator, max_swipes=6, timeout_per_check=1.5):
-        """Scrolls down on iOS until `locator` is present/visible or `max_swipes` is reached."""
-        for _ in range(max_swipes):
-            try:
-                element = WebDriverWait(self.driver, timeout_per_check).until(
-                    EC.presence_of_element_located(locator)
-                )
-                # Scroll to center if needed so it isn't clipped by bars
-                self.driver.execute_script("mobile: scroll", {"elementId": element.id, "toVisible": True})
-                return element
-            except TimeoutException:
-                try:
-                    scroll_view = self.driver.find_element(*self.SCROLL_CONTAINER)
-                    self.driver.execute_script(
-                        "mobile: scroll",
-                        {"elementId": scroll_view.id, "direction": "down"},
-                    )
-                except Exception:
-                    # Fallback if there is no explicit XCUIElementTypeScrollView wrapper
-                    self.driver.execute_script("mobile: scroll", {"direction": "down"})
+    def scroll_down_to_element(self, locator, max_swipes=25):
+        """Scrolls down on iOS, using smaller drags near the bottom to catch edge items."""
+        size = self.driver.get_window_size()
+        width = size["width"]
+        height = size["height"]
 
-        raise TimeoutException(f"Could not find element {locator} after {max_swipes} scroll attempts.")
+        for attempt in range(max_swipes):
+            for el in self.driver.find_elements(*locator):
+                if el.is_displayed():
+                    return el
+
+            before_source = self.driver.page_source
+
+            # Drag finger upward (from 75% down to 30% down) to move content up
+            self.driver.execute_script(
+                "mobile: dragFromToForDuration",
+                {
+                    "fromX": width * 0.5,
+                    "fromY": height * 0.75,
+                    "toX": width * 0.5,
+                    "toY": height * 0.30,
+                    "duration": 0.4,
+                },
+            )
+
+            # If we stopped moving, try one gentle nudge from 60% to 35%
+            after_source = self.driver.page_source
+            if after_source == before_source:
+                self.driver.execute_script(
+                    "mobile: dragFromToForDuration",
+                    {
+                        "fromX": width * 0.5,
+                        "fromY": height * 0.60,
+                        "toX": width * 0.5,
+                        "toY": height * 0.35,
+                        "duration": 0.3,
+                    },
+                )
+                for el in self.driver.find_elements(*locator):
+                    if el.is_displayed():
+                        return el
+                if self.driver.page_source == after_source:
+                    break
+
+        raise TimeoutException(
+            f"Could not find visible element at bottom for {locator} after {max_swipes} attempts."
+        )
 
     def select_bike_light(self, max_swipes=6):
         print("Scrolling down to find 'Sauce Labs Bike Light'")
@@ -60,7 +85,7 @@ class ProductsPage(BasePage):
         print("Clicking 'Sauce Labs Onesie'")
         self.click(self.ONESIE_ITEM)
 
-    def select_pink_fleece(self, max_swipes=15):
+    def select_pink_fleece(self, max_swipes=30):
         print("Scrolling down to find 'Sauce Labs Fleece Jacket - Pink'")
         self.scroll_down_to_element(self.PINK_FLEECE_ITEM, max_swipes=max_swipes)
         print("Clicking 'Sauce Labs Fleece Jacket - Pink")
