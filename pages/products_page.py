@@ -60,7 +60,7 @@ class ProductsPage(BasePage):
         print("Clicking 'Sauce Labs Onesie'")
         self.click(self.ONESIE_ITEM)
 
-    def select_pink_fleece(self, max_swipes=10):
+    def select_pink_fleece(self, max_swipes=15):
         print("Scrolling down to find 'Sauce Labs Fleece Jacket - Pink'")
         self.scroll_down_to_element(self.PINK_FLEECE_ITEM, max_swipes=max_swipes)
         print("Clicking 'Sauce Labs Fleece Jacket - Pink")
