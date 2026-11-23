@@ -84,6 +84,7 @@ class Test_Order_BlackTShirt:
             lambda: (
                 product_page.click_shopping_cart_icon(),
                 cart_page.header_visible(),
+                cart_page.two_tshirts_pretax_amount_visible(),
                 cart_page.click_proceed_to_checkout_button(),
                 login_page.header_visible(),
                 print("Login header is visible")
@@ -141,6 +142,7 @@ class Test_Order_BlackTShirt:
                 checkout_page.enter_creditcard_exp_date("03/28"),
                 checkout_page.enter_creditcard_security_code("123"),
                 checkout_page.click_review_order_button(),
+                checkout_page.two_tshirts_posttax_amount_visible(),
                 checkout_page.review_your_order_header_visible(),
                 print("Review your order header is visible")
             )

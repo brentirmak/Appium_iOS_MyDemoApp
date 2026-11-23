@@ -36,6 +36,7 @@ class CheckoutPage(BasePage):
     CONTINUE_SHOPPING_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeButton[@name="ContinueShopping"]')
     SHIPPING_HEADER = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[@name="Enter a shipping address"]')
     POSTTAX_CART_AMOUNT_FOR_FIVE_BIKELIGHTS = (AppiumBy.ACCESSIBILITY_ID,'$55.94')
+    POSTTAX_CART_AMOUNT_FOR_TWO_TSHIRTS = (AppiumBy.ACCESSIBILITY_ID, '$37.97')
     KEYBOARD_DISMISS_TARGETS = (ADDRESS_2_FIELD, PAYMENT_FULLNAME_FIELD)
 
     # ---------------------------
@@ -144,11 +145,17 @@ class CheckoutPage(BasePage):
         self.click_when_ready(self.REVIEW_ORDER_BUTTON, timeout)
         self.review_your_order_header_visible(timeout)
 
-
     def five_bikelights_posttax_amount_visible(self, timeout=30):
         print("Will confirm that $55.94 is visible")
         visible = self.is_visible(self.POSTTAX_CART_AMOUNT_FOR_FIVE_BIKELIGHTS)
         assert visible, f"Expected pretax amount not visible using locator: {self.POSTTAX_CART_AMOUNT_FOR_FIVE_BIKELIGHTS}"
+        return visible
+
+    
+    def two_tshirts_posttax_amount_visible(self, timeout=30):
+        print("Will confirm that $37.97 is visible")
+        visible = self.is_visible(self.POSTTAX_CART_AMOUNT_FOR_TWO_TSHIRTS)
+        assert visible, f"Expected pretax amount not visible using locator: {self.POSTTAX_CART_AMOUNT_FOR_TWO_TSHIRTS}"
         return visible
     
     # ---------------------------

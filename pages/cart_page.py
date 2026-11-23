@@ -10,6 +10,7 @@ class CartPage(BasePage):
     GO_SHOPPING_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="Go Shopping"]')
     PROCEED_TO_CHECKOUT_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeButton[@name="ProceedToCheckout"]')
     PRETAX_CART_AMOUNT_FOR_FIVE_BIKELIGHTS = (AppiumBy.ACCESSIBILITY_ID,'$49.95')
+    PRETAX_CART_AMOUNT_FOR_TWO_TSHIRTS = (AppiumBy.ACCESSIBILITY_ID,'$31.98')
 
     def header_visible(self, timeout=30):
         print("Will confirm that the MyCart page header is visible")
@@ -39,4 +40,9 @@ class CartPage(BasePage):
         visible = self.is_visible(self.PRETAX_CART_AMOUNT_FOR_FIVE_BIKELIGHTS)
         assert visible, f"Expected pretax amount not visible using locator: {self.PRETAX_CART_AMOUNT_FOR_FIVE_BIKELIGHTS}"
         return visible
-    
+
+    def two_tshirts_pretax_amount_visible(self, timeout=30):
+        print("Will confirm that $31.98 is visible")
+        visible = self.is_visible(self.PRETAX_CART_AMOUNT_FOR_TWO_TSHIRTS)
+        assert visible, f"Expected pretax amount not visible using locator: {self.PRETAX_CART_AMOUNT_FOR_TWO_TSHIRTS}"
+        return visible
