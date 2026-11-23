@@ -14,10 +14,6 @@ def _field_below_label(label, screen=None):
 
 class CheckoutPage(BasePage):
 
-    # Shipping and payment fields use label-relative locators on the real TextFields
-    # (verified against shipping_page.xml and payment_page.xml), so fill() verifies what
-    # was typed. Both sets are scoped to their screen container ("ShippingAddress-screen" /
-    # "Payment-screen"), because labels such as "Full Name*" appear on both pages.
     CHECKOUT_HEADER = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[@name="Checkout"]')
     FULLNAME_FIELD = _field_below_label("Full Name*", screen="ShippingAddress-screen")
     ADDRESS_1_FIELD = _field_below_label("Address Line 1*", screen="ShippingAddress-screen")
@@ -39,11 +35,7 @@ class CheckoutPage(BasePage):
     CHECKOUT_COMPLETE_HEADER = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[@name="Checkout Complete"]')
     CONTINUE_SHOPPING_BUTTON = (AppiumBy.XPATH, '//XCUIElementTypeButton[@name="ContinueShopping"]')
     SHIPPING_HEADER = (AppiumBy.XPATH, '//XCUIElementTypeStaticText[@name="Enter a shipping address"]')
-
-    # Tapping a text field dismisses the keyboard in this app (this is what the original
-    # "click Address Line 2" workaround relied on). First displayed target is tapped:
-    # Address Line 2 on the shipping page; on the payment page that label does not exist,
-    # so the payment Full Name field (the field the original workaround hit there) is used.
+    POSTTAX_CART_AMOUNT_FOR_FIVE_BIKELIGHTS = (AppiumBy.ACCESSIBILITY_ID,'$55.94')
     KEYBOARD_DISMISS_TARGETS = (ADDRESS_2_FIELD, PAYMENT_FULLNAME_FIELD)
 
     # ---------------------------
@@ -78,9 +70,6 @@ class CheckoutPage(BasePage):
         self.fill(self.COUNTRY_FIELD, country, name="Country", timeout=timeout)
 
     def click_address_line_2_field(self, timeout=15):
-        # Kept so existing tests keep working. This used to tap Address Line 2,
-        # which re-focused a text field and left it as the default target for stray
-        # keystrokes. It now just dismisses the keyboard.
         print("Dismissing keyboard")
         self.hide_keyboard()
 
@@ -88,7 +77,6 @@ class CheckoutPage(BasePage):
         print("Will click on To Payment button")
         self.hide_keyboard()
         self.click_when_ready(self.TO_PAYMENT_BUTTON, timeout)
-        # Fail here, not three steps later, if the tap did not navigate
         self.enter_payment_method_header_visible(timeout)
         print("Payment page is displayed")
 
@@ -97,8 +85,7 @@ class CheckoutPage(BasePage):
     # ---------------------------
     def header_visible(self, timeout=30):
         print("Will check if Checkout header is visible")
-        return self.assert_visible(self.CHECKOUT_HEADER, timeout,
-                                   "Checkout page did not appear")
+        return self.assert_visible(self.CHECKOUT_HEADER, timeout,"Checkout page did not appear")
 
     def click_header(self, timeout=15):
         print("Will click on Checkout header")
@@ -106,31 +93,26 @@ class CheckoutPage(BasePage):
 
     def enter_payment_method_header_visible(self, timeout=15):
         print("Will check that payment method header is visible")
-        return self.assert_visible(self.ENTER_PAYMENT_METHOD_HEADER, timeout,
-                                   "Payment page did not appear after tapping To Payment")
+        return self.assert_visible(self.ENTER_PAYMENT_METHOD_HEADER, timeout,"Payment page did not appear after tapping To Payment")
 
     def review_your_order_header_visible(self, timeout=15):
         print("Will check if Review your order header is visible")
-        return self.assert_visible(self.REVIEW_YOUR_ORDER_HEADER, timeout,
-                                   "Review your order page did not appear")
+        return self.assert_visible(self.REVIEW_YOUR_ORDER_HEADER, timeout,"Review your order page did not appear")
 
     def checkout_complete_header_visible(self, timeout=30):
         print("Will check if Checkout Complete header is visible")
-        return self.assert_visible(self.CHECKOUT_COMPLETE_HEADER, timeout,
-                                   "Checkout Complete page did not appear")
+        return self.assert_visible(self.CHECKOUT_COMPLETE_HEADER, timeout,"Checkout Complete page did not appear")
 
     # ---------------------------
     # Payment
     # ---------------------------
     def enter_creditcard_fullname(self, creditcard_fullname, timeout=15):
         print("Entering Credit Card Full Name")
-        self.fill(self.PAYMENT_FULLNAME_FIELD, creditcard_fullname,
-                  name="Credit Card Full Name", timeout=timeout)
+        self.fill(self.PAYMENT_FULLNAME_FIELD, creditcard_fullname,name="Credit Card Full Name", timeout=timeout)
 
     def enter_creditcard_number(self, creditcard_number, timeout=15):
         print("Entering Credit Card Number")
-        self.fill(self.PAYMENT_CARDNUMBER_FIELD, creditcard_number,
-                  name="Credit Card Number", timeout=timeout)
+        self.fill(self.PAYMENT_CARDNUMBER_FIELD, creditcard_number,name="Credit Card Number", timeout=timeout)
 
     def click_clear_expiration_date_button(self, timeout=10):
         print("Will click on the clear button associated with the Credit Card expiration date")
@@ -138,9 +120,6 @@ class CheckoutPage(BasePage):
 
     def enter_creditcard_exp_date(self, creditcard_exp_date, timeout=15):
         print("Entering Credit Card Expiration Date")
-        # Type digits only. Typing "03/28" left the field showing "03": the "/" appears to
-        # stall the input (numeric keypad has no "/" key), so "28" was never entered.
-        # The field's mask is expected to insert the "/" itself.
         digits = "".join(ch for ch in creditcard_exp_date if ch.isdigit())
         element = self.fill(self.PAYMENT_CARDNUMBER_EXP_DATE_FIELD, digits,
                             name="Expiration Date", timeout=timeout)
@@ -151,15 +130,11 @@ class CheckoutPage(BasePage):
 
     def enter_creditcard_security_code(self, creditcard_security_code, timeout=15):
         print("Entering Credit Card Security Code")
-        self.fill(self.PAYMENT_CARDNUMBER_SEC_CODE_FIELD, creditcard_security_code,
-                  name="Security Code", timeout=timeout)
+        self.fill(self.PAYMENT_CARDNUMBER_SEC_CODE_FIELD, creditcard_security_code,name="Security Code", timeout=timeout)
 
-    # Original (misspelled) name kept so the existing test keeps working
     enter_creditcard_secuirty_code = enter_creditcard_security_code
 
     def click_creditcard_number_field(self, timeout=15):
-        # Previously tapped the Address 2 locator, which on this screen is the payment
-        # Full Name field. Now only dismisses the keyboard.
         print("Dismissing keyboard")
         self.hide_keyboard()
 
@@ -169,6 +144,13 @@ class CheckoutPage(BasePage):
         self.click_when_ready(self.REVIEW_ORDER_BUTTON, timeout)
         self.review_your_order_header_visible(timeout)
 
+
+    def five_bikelights_posttax_amount_visible(self, timeout=30):
+        print("Will confirm that $55.94 is visible")
+        visible = self.is_visible(self.POSTTAX_CART_AMOUNT_FOR_FIVE_BIKELIGHTS)
+        assert visible, f"Expected pretax amount not visible using locator: {self.POSTTAX_CART_AMOUNT_FOR_FIVE_BIKELIGHTS}"
+        return visible
+    
     # ---------------------------
     # Place order
     # ---------------------------
