@@ -12,6 +12,9 @@ class ProductsPage(BasePage):
     
     BIKE_LIGHT_ITEM = (AppiumBy.XPATH,'//*[contains(@name, "Bike Light") or contains(@label, "Bike Light")]',)
     ONESIE_ITEM = (AppiumBy.XPATH,'//*[contains(@name, "Onesie") or contains(@label, "Onesie")]',)
+    PINK_FLEECE_ITEM = (AppiumBy.XPATH,'//*[contains(@name, "Fleece Jacket - Pink") or contains(@label, "Fleece Jacket - Pink")]',)
+
+
     SCROLL_CONTAINER = (AppiumBy.IOS_CLASS_CHAIN, "**/XCUIElementTypeScrollView[1]")
 
     SHOPPING_CART_ICON = (AppiumBy.XPATH,'//XCUIElementTypeButton[@name="Cart-tab-item"]')
@@ -20,7 +23,7 @@ class ProductsPage(BasePage):
     PRODUCT_SORT_ICON = (AppiumBy.IOS_PREDICATE,'**/XCUIElementTypeStaticText[`name == "Button"`]')
     ASCENDING_BY_PRICE_OPTION = (AppiumBy.XPATH,'//XCUIElementTypeButton[@name="Price - Ascending"]')
     BLACK_TSHIRT_IMAGE = (AppiumBy.IOS_PREDICATE, 'name == "Product Name" AND label == "Sauce Labs Bolt T-Shirt - Black"')
-    #ONESIE_IMAGE = (AppiumBy.IOS_PREDICATE, 'name == "Product Name" AND label == "Sauce Labs Onesie"')
+    
 
     def scroll_down_to_element(self, locator, max_swipes=6, timeout_per_check=1.5):
         """Scrolls down on iOS until `locator` is present/visible or `max_swipes` is reached."""
@@ -56,6 +59,12 @@ class ProductsPage(BasePage):
         self.scroll_down_to_element(self.ONESIE_ITEM, max_swipes=max_swipes)
         print("Clicking 'Sauce Labs Onesie'")
         self.click(self.ONESIE_ITEM)
+
+    def select_pink_fleece(self, max_swipes=10):
+        print("Scrolling down to find 'Sauce Labs Fleece Jacket - Pink'")
+        self.scroll_down_to_element(self.PINK_FLEECE_ITEM, max_swipes=max_swipes)
+        print("Clicking 'Sauce Labs Fleece Jacket - Pink")
+        self.click(self.PINK_FLEECE_ITEM)
 
     def click_green_backpack_product(self, timeout=30):
         print("Clicking on green backpack product")

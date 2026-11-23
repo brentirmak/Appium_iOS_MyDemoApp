@@ -38,6 +38,7 @@ class CheckoutPage(BasePage):
     POSTTAX_CART_AMOUNT_FOR_FIVE_BIKELIGHTS = (AppiumBy.ACCESSIBILITY_ID,'$55.94')
     POSTTAX_CART_AMOUNT_FOR_TWO_TSHIRTS = (AppiumBy.ACCESSIBILITY_ID, '$37.97')
     POSTTAX_CART_AMOUNT_FOR_TEN_ONESIES = (AppiumBy.ACCESSIBILITY_ID, '$85.89')
+    POSTTAX_CART_AMOUNT_FOR_FIFTEEN_ONESIES = (AppiumBy.ACCESSIBILITY_ID, '$755.84')
     KEYBOARD_DISMISS_TARGETS = (ADDRESS_2_FIELD, PAYMENT_FULLNAME_FIELD)
 
     # ---------------------------
@@ -163,6 +164,13 @@ class CheckoutPage(BasePage):
         visible = self.is_visible(self.POSTTAX_CART_AMOUNT_FOR_TEN_ONESIES)
         assert visible, f"Expected pretax amount not visible using locator: {self.POSTTAX_CART_AMOUNT_FOR_TEN_ONESIES}"
         return visible
+    
+    def fifteen_fleece_posttax_amount_visible(self, timeout=30):
+        print("Will confirm that $755.84 is visible")
+        visible = self.is_visible(self.POSTTAX_CART_AMOUNT_FOR_FIFTEEN_ONESIES)
+        assert visible, f"Expected pretax amount not visible using locator: {self.POSTTAX_CART_AMOUNT_FOR_FIFTEEN_ONESIES}"
+        return visible
+
     
     # ---------------------------
     # Place order
