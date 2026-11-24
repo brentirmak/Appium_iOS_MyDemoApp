@@ -6,7 +6,7 @@ class QRCodeScannerPage(BasePage):
     QR_CODE_SCANNER_HEADER = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="QR Code Scanner"]')
     DO_NOT_ALLOW_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]')
     ACCESS_DENIED_OK_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeAlert[@name="Camera Access Denied"]/XCUIElementTypeOther[1]/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeScrollView[2]')
-    BACK_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeOther[@name="QrCodeScanner-screen"]')
+    BACK_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeImage[@name="BackButton Icons"]')
 
     def click_do_not_allow_button(self, timeout=30):
         print("Will click on Don't Allow button")

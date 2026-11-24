@@ -21,7 +21,8 @@ def test_01_ProoductsLandingPage(driver):
     home_page = HomePage(driver)
     menu_page = MenuPage(driver)
     home_page.open_menu()
-    menu_page.mydemoapp_logo_visible()
+    assert menu_page.mydemoapp_logo_visible(),"MyDemoApp logo is not visible"
+    print("Verified that the MyDemoApp logo is visible")
     print("Ended test_01_ProoductsLandingPage transaction")
 
 def test_02_WebviewPage(driver):
@@ -30,8 +31,10 @@ def test_02_WebviewPage(driver):
     webview_page = WebViewPage(driver)
     menu_page.open_webview()
     assert webview_page.url_field_visible(), "URL field is not visible"
+    print("Verified that the URL field is visible")
     webview_page.navigate_back()
-    menu_page.mydemoapp_logo_visible()
+    assert menu_page.mydemoapp_logo_visible(),"MyDemoApp logo is not visible"
+    print("Verified that the MyDemoApp logo is visible")
     print("\nEnded test_02_WebviewPage transaction")
 
 def test_03_QRCodeScannerPage(driver):
@@ -39,9 +42,8 @@ def test_03_QRCodeScannerPage(driver):
     menu_page = MenuPage(driver)
     qrcodescanner_page = QRCodeScannerPage(driver)
     menu_page.click_qrcodescanner()
-    qrcodescanner_page.header_visible()
-    qrcodescanner_page.click_back_button()
-    menu_page.mydemoapp_logo_visible()
+    assert qrcodescanner_page.header_visible(), "QRCodeScanner page header is not visible"
+    print("Verified that the QRCodeScanner page header is visible")
     print("\nEnded test_03_QRCodeScannerPage transaction")
 
 def test_04_GeoLocationPage(driver):
@@ -51,12 +53,12 @@ def test_04_GeoLocationPage(driver):
     geolocation_page = GeoLocationPage(driver)
     home_page.open_menu()
     menu_page.click_geo_location()
-    geolocation_page.header_visible()
+    assert geolocation_page.header_visible(), "GeoLocation page header is not visible"
+    print("Verified that the GeoLocation page header is visible")
     time.sleep(2)
     geolocation_page.click_back_icon() 
-    menu_page.mydemoapp_logo_visible()
-    print("Checked for the logo being visible")
-    menu_page.drawing_menu_item_visible()
+    assert menu_page.mydemoapp_logo_visible(),"MyDemoApp logo is not visible"
+    print("Verified that the MyDemoApp logo is visible")
     print("\nEnded test_04_GeoLocationPage transaction")
 
 def test_05_DrawingPage(driver):
@@ -65,9 +67,11 @@ def test_05_DrawingPage(driver):
     webview_page = WebViewPage(driver)
     drawing_page = DrawingPage(driver)
     menu_page.click_drawing()
-    drawing_page.header_visible()
+    assert drawing_page.header_visible(), "Drawing Page header is not visible"
+    print("Verified that the Drawing Page header is visible")
     webview_page.navigate_back()
-    menu_page.mydemoapp_logo_visible()
+    assert menu_page.mydemoapp_logo_visible(),"MyDemoApp logo is not visible"
+    print("Verified that the MyDemoApp logo is visible")
     print("Ended test_04_drawing_page transaction")
 
 def test_06_ReportBugPage(driver):
@@ -75,9 +79,11 @@ def test_06_ReportBugPage(driver):
     menu_page = MenuPage(driver)
     reportbug_page = ReportBugPage(driver)
     menu_page.click_reportbug()
-    reportbug_page.header_visible()
+    assert reportbug_page.header_visible(),"Report Bug page header is not visible"
+    print("Verified that the Report Bug page header is visible")
     reportbug_page.click_cancel_icon()
-    menu_page.mydemoapp_logo_visible()
+    assert menu_page.mydemoapp_logo_visible(),"MyDemoApp logo is not visible"
+    print("Verified that the MyDemoApp logo is visible")
     print("Ended test_06_ReportBugPage transaction")
 
 def test_07_ReportBugDebugPage(driver):
@@ -85,9 +91,12 @@ def test_07_ReportBugDebugPage(driver):
     menu_page = MenuPage(driver)
     reportbug_debug_page = ReportBugDebugPage(driver)
     menu_page.click_reportbug_debug()
-    reportbug_debug_page.header_visible()
+    assert reportbug_debug_page.header_visible(), "ReportBug Debug page header is not visible"
+    print("Verified that the ReportBug Debug page header is visible")
     reportbug_debug_page.click_debug_back_icon()
-    menu_page.mydemoapp_logo_visible()
+    assert menu_page.mydemoapp_logo_visible(),"MyDemoApp logo is not visible"
+    print("Verified that the MyDemoApp logo is visible")
+
     print("Ended test_07_ReportBugDebugPage transaction")
 
 def test_08_PushNotificationsPage(driver):
@@ -95,9 +104,10 @@ def test_08_PushNotificationsPage(driver):
     menu_page = MenuPage(driver)
     push_notifications_page = PushNotificationsPage(driver)
     menu_page.click_push_notifications()
-    push_notifications_page.header_visible()
+    assert push_notifications_page.header_visible(), "Push Notification page header is not visible"
     push_notifications_page.click_back_icon()
-    menu_page.mydemoapp_logo_visible()
+    assert menu_page.mydemoapp_logo_visible(),"MyDemoApp logo is not visible"
+    print("Verified that the MyDemoApp logo is visible")
     print("Ended test_08_PushNotificationsPage transaction")
 
 def test_09_AboutPage(driver):
@@ -105,10 +115,13 @@ def test_09_AboutPage(driver):
     menu_page = MenuPage(driver)
     about_page = AboutPage(driver)
     menu_page.click_about()
-    about_page.header_visible()
-    about_page.about_page_text_visible()
+    assert about_page.header_visible(), "About page header is not visible"
+    print("Verified that the About page header is visible")
+    assert about_page.about_page_text_visible(), "About page text is not visible"
+    print("Verified that the About page text is visible")
     about_page.click_about_back_icon()
-    menu_page.mydemoapp_logo_visible()
+    assert menu_page.mydemoapp_logo_visible(),"MyDemoApp logo is not visible"
+    print("Verified that the MyDemoApp logo is visible")
     print("Ended test_09_AboutPage transaction")
 
 def test_10_FaceIDPage(driver):
@@ -116,9 +129,11 @@ def test_10_FaceIDPage(driver):
     menu_page = MenuPage(driver)
     faceid_page = FaceIDPage(driver)
     menu_page.click_faceid()
-    faceid_page.header_visible()
+    assert faceid_page.header_visible(),"Face ID page header is not visible"
+    print("Verified that the Face ID page header is visible")
     faceid_page.click_faceid_back_icon()
-    menu_page.mydemoapp_logo_visible()
+    assert menu_page.mydemoapp_logo_visible(),"MyDemoApp logo is not visible"
+    print("Verified that the MyDemoApp logo is visible")
     print("Ended test_10_FaceIDPage transaction")
 
 def test_11_LoginPage(driver):
@@ -127,8 +142,9 @@ def test_11_LoginPage(driver):
     login_page = LoginPage(driver)
     products_page = ProductsPage(driver)
     menu_page.click_login()
-    login_page.header_visible()
+    assert login_page.header_visible(), "Login page header is not visible"
     login_page.enter_username("visual@example.com")
     login_page.enter_password("10203040")
     login_page.click_login_button()
-    products_page.products_header_visible()
+    assert products_page.products_header_visible(),"Products header is not visible"
+    print("Verified that the Products header is visible")
