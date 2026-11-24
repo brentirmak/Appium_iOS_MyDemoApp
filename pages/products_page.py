@@ -9,14 +9,10 @@ from selenium.webdriver.support import expected_conditions as EC
 class ProductsPage(BasePage):
 
     GREEN_BACKPACK_IMAGE = (AppiumBy.XPATH,'(//XCUIElementTypeImage[@name="Product Image"])[2]')
-    
     BIKE_LIGHT_ITEM = (AppiumBy.XPATH,'//*[contains(@name, "Bike Light") or contains(@label, "Bike Light")]',)
     ONESIE_ITEM = (AppiumBy.XPATH,'//*[contains(@name, "Onesie") or contains(@label, "Onesie")]',)
     PINK_FLEECE_ITEM = (AppiumBy.XPATH,'//*[contains(@name, "Fleece Jacket - Pink") or contains(@label, "Fleece Jacket - Pink")]',)
-
-
     SCROLL_CONTAINER = (AppiumBy.IOS_CLASS_CHAIN, "**/XCUIElementTypeScrollView[1]")
-
     SHOPPING_CART_ICON = (AppiumBy.XPATH,'//XCUIElementTypeButton[@name="Cart-tab-item"]')
     MORE_ICON = (AppiumBy.ACCESSIBILITY_ID,"More-tab-item")
     PRODUCTS_HEADER = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="title"]')
@@ -73,13 +69,13 @@ class ProductsPage(BasePage):
             f"Could not find visible element at bottom for {locator} after {max_swipes} attempts."
         )
 
-    def select_bike_light(self, max_swipes=6):
+    def select_bike_light(self, max_swipes=30):
         print("Scrolling down to find 'Sauce Labs Bike Light'")
         self.scroll_down_to_element(self.BIKE_LIGHT_ITEM, max_swipes=max_swipes)
         print("Clicking 'Sauce Labs Bike Light'")
         self.click(self.BIKE_LIGHT_ITEM)
 
-    def select_onesie(self, max_swipes=6):
+    def select_onesie(self, max_swipes=30):
         print("Scrolling down to find 'Sauce Labs Onesie'")
         self.scroll_down_to_element(self.ONESIE_ITEM, max_swipes=max_swipes)
         print("Clicking 'Sauce Labs Onesie'")
