@@ -28,10 +28,7 @@ class Test_Order_BikeLight:
             lambda: (
                 product_page.select_bike_light(),
                 bike_light_page.header_visible(),
-                bike_light_page.click_plus_icon(),
-                bike_light_page.click_plus_icon(),
-                bike_light_page.click_plus_icon(),
-                bike_light_page.click_plus_icon(),
+                bike_light_page.click_plus_icon(5),
                 bike_light_page.quantity_value(),
                 bike_light_page.click_add_to_cart_button(),
                 bike_light_page.cart_with_five_items_visible(),
