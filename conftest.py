@@ -95,7 +95,8 @@ def get_run_type():
 # APPIUM DRIVER FIXTURE
 # ---------------------------------------------------------
 
-@pytest.fixture(scope="class")
+###@pytest.fixture(scope="class") Removed as part of refactoring efforts
+@pytest.fixture(scope="session") 
 def driver():
 
     options = AppiumOptions()

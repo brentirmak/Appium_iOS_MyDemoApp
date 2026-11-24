@@ -15,194 +15,120 @@ from utils.transaction_logger import execute_transaction
 from utils.retry import retry_action
 import time
 
-class Test_Menu_Options:
 
-    def test_webview_navigation(
-            self,
-            driver,
-            mysql_logger):
+def test_01_ProoductsLandingPage(driver):
+    print("\nStarting test_01_ProoductsLandingPage transaction")
+    home_page = HomePage(driver)
+    menu_page = MenuPage(driver)
+    home_page.open_menu()
+    menu_page.mydemoapp_logo_visible()
+    print("Ended test_01_ProoductsLandingPage transaction")
 
+def test_02_WebviewPage(driver):
+    print("\nStarting test_02_WebviewPage transaction")
+    menu_page = MenuPage(driver)
+    webview_page = WebViewPage(driver)
+    menu_page.open_webview()
+    assert webview_page.url_field_visible(), "URL field is not visible"
+    webview_page.navigate_back()
+    menu_page.mydemoapp_logo_visible()
+    print("\nEnded test_02_WebviewPage transaction")
 
-        # Sequence/execution order
-        home_page = HomePage(driver)
-        menu_page = MenuPage(driver)
-        webview_page = WebViewPage(driver)
-        qrcodescanner_page = QRCodeScannerPage(driver)
-        geolocation_page = GeoLocationPage(driver)
-        drawing_page = DrawingPage(driver)
-        reportbug_page = ReportBugPage(driver)
-        reportbug_debug_page = ReportBugDebugPage(driver)
-        push_notifications_page = PushNotificationsPage(driver)
-        about_page = AboutPage(driver)
-        faceid_page = FaceIDPage(driver)
-        login_page = LoginPage(driver)
-        products_page = ProductsPage(driver)
+def test_03_QRCodeScannerPage(driver):
+    print("\nStarting test_03_QRCodeScannerPage transaction")
+    menu_page = MenuPage(driver)
+    qrcodescanner_page = QRCodeScannerPage(driver)
+    menu_page.click_qrcodescanner()
+    qrcodescanner_page.header_visible()
+    qrcodescanner_page.click_back_button()
+    menu_page.mydemoapp_logo_visible()
+    print("\nEnded test_03_QRCodeScannerPage transaction")
 
-        print("\nStarting test_01_webview_page transaction")
+def test_04_GeoLocationPage(driver):
+    print("\nStarting test_04_GeoLocationPage transaction")
+    home_page = HomePage(driver)
+    menu_page = MenuPage(driver)
+    geolocation_page = GeoLocationPage(driver)
+    home_page.open_menu()
+    menu_page.click_geo_location()
+    geolocation_page.header_visible()
+    time.sleep(2)
+    geolocation_page.click_back_icon() 
+    menu_page.mydemoapp_logo_visible()
+    print("Checked for the logo being visible")
+    menu_page.drawing_menu_item_visible()
+    print("\nEnded test_04_GeoLocationPage transaction")
 
-        execute_transaction(
-            mysql_logger,
-            "test_01_webview_page",
-            lambda: (
-                home_page.open_menu(),
-                menu_page.mydemoapp_logo_visible(),
-                menu_page.open_webview(),
-                webview_page.url_field_visible(),
-                webview_page.navigate_back(),
-                menu_page.mydemoapp_logo_visible()
-            )
-        )
+def test_05_DrawingPage(driver):
+    print("\nStarting test_05_DrawingPage transaction")
+    menu_page = MenuPage(driver)
+    webview_page = WebViewPage(driver)
+    drawing_page = DrawingPage(driver)
+    menu_page.click_drawing()
+    drawing_page.header_visible()
+    webview_page.navigate_back()
+    menu_page.mydemoapp_logo_visible()
+    print("Ended test_04_drawing_page transaction")
 
-        print("Ended test_01_webview_page transaction")
+def test_06_ReportBugPage(driver):
+    print("\nStarting test_06_ReportBugPage transaction")
+    menu_page = MenuPage(driver)
+    reportbug_page = ReportBugPage(driver)
+    menu_page.click_reportbug()
+    reportbug_page.header_visible()
+    reportbug_page.click_cancel_icon()
+    menu_page.mydemoapp_logo_visible()
+    print("Ended test_06_ReportBugPage transaction")
 
-        print("\nStarting test_02_qrcodescanner_page transaction")
+def test_07_ReportBugDebugPage(driver):
+    print("\nStarting test_07_ReportBugDebugPage transaction")
+    menu_page = MenuPage(driver)
+    reportbug_debug_page = ReportBugDebugPage(driver)
+    menu_page.click_reportbug_debug()
+    reportbug_debug_page.header_visible()
+    reportbug_debug_page.click_debug_back_icon()
+    menu_page.mydemoapp_logo_visible()
+    print("Ended test_07_ReportBugDebugPage transaction")
 
-        execute_transaction(
-            mysql_logger,
-            "test_02_qrcodescanner_page",
-            lambda: (
-                menu_page.click_qrcodescanner(),
-                qrcodescanner_page.header_visible(),
-                qrcodescanner_page.click_back_button(),
-                menu_page.mydemoapp_logo_visible()
-            )
-        )
+def test_08_PushNotificationsPage(driver):
+    print("\nStarting test_08_PushNotificationsPage transaction")
+    menu_page = MenuPage(driver)
+    push_notifications_page = PushNotificationsPage(driver)
+    menu_page.click_push_notifications()
+    push_notifications_page.header_visible()
+    push_notifications_page.click_back_icon()
+    menu_page.mydemoapp_logo_visible()
+    print("Ended test_08_PushNotificationsPage transaction")
 
-        print("Ended test_02_qrcodescanner_page transaction")
+def test_09_AboutPage(driver):
+    print("\nStarting test_09_AboutPage transaction")
+    menu_page = MenuPage(driver)
+    about_page = AboutPage(driver)
+    menu_page.click_about()
+    about_page.header_visible()
+    about_page.about_page_text_visible()
+    about_page.click_about_back_icon()
+    menu_page.mydemoapp_logo_visible()
+    print("Ended test_09_AboutPage transaction")
 
-        print("\nStarting test_03_geolocation_page transaction")
+def test_10_FaceIDPage(driver):
+    print("\nStarting test_10_FaceIDPage transaction")
+    menu_page = MenuPage(driver)
+    faceid_page = FaceIDPage(driver)
+    menu_page.click_faceid()
+    faceid_page.header_visible()
+    faceid_page.click_faceid_back_icon()
+    menu_page.mydemoapp_logo_visible()
+    print("Ended test_10_FaceIDPage transaction")
 
-        retry_action(
-            lambda: execute_transaction(
-                mysql_logger,
-                "test_03_geolocation_page",
-                lambda: (
-                    home_page.open_menu(),
-                    menu_page.click_geo_location(),
-                    geolocation_page.header_visible(),
-                    time.sleep(2),
-                    geolocation_page.click_back_icon(),   # no retry here
-                    menu_page.mydemoapp_logo_visible(),
-                    print("Checked for the logo being visible"),
-                    menu_page.drawing_menu_item_visible()
-                )
-            ),
-            retries=3,
-            delay=1
-        )
-
-        print("Ended test_03_geolocation_page transaction")
-
-
-        print("\nStarting test_04_drawing_page transaction")
-
-        retry_action(
-            lambda: execute_transaction(
-                mysql_logger,
-                "test_04_drawing_page",
-                lambda: (
-                    menu_page.click_drawing(),
-                    drawing_page.header_visible(),
-                    webview_page.navigate_back(),
-                    menu_page.mydemoapp_logo_visible()
-                )
-            ),
-            retries=3,
-            delay=1
-        )
-
-        print("Ended test_04_drawing_page transaction")
-
-        print("\nStarting test_05_reportbug_page transaction")
-
-        execute_transaction(
-            mysql_logger,
-            "test_05_reportbug_page",
-            lambda: (
-                menu_page.click_reportbug(),
-                reportbug_page.header_visible(),
-                reportbug_page.click_cancel_icon(),
-                menu_page.mydemoapp_logo_visible()
-            )
-        )
-
-        print("Ended test_05_reportbug_page transaction")
-
-        print("\nStarting test_06_reportbug_debug_page transaction")
-
-        execute_transaction(
-            mysql_logger,
-            "test_06_reportbug_debug_page",
-            lambda: (
-                menu_page.click_reportbug_debug(),
-                reportbug_debug_page.header_visible(),
-                reportbug_debug_page.click_debug_back_icon(),
-                menu_page.mydemoapp_logo_visible()
-            )
-        )
-
-        print("Ended test_06_reportbug_debug_page transaction")
-
-        print("\nStarting test_07_push_notifications_page transaction")
-
-        execute_transaction(
-            mysql_logger,
-            "test_07_push_notifications_page",
-            lambda: (
-                menu_page.click_push_notifications(),
-                push_notifications_page.header_visible(),
-                push_notifications_page.click_back_icon(),
-                menu_page.mydemoapp_logo_visible()
-            )
-        )
-
-        print("Ended test_07_push_notifications_page transaction")
-
-        print("\nStarting test_08_about_page transaction")
-
-        execute_transaction(
-            mysql_logger,
-            "test_08_about_page",
-            lambda: (
-                menu_page.click_about(),
-                about_page.header_visible(),
-                about_page.about_page_text_visible(),
-                about_page.click_about_back_icon(),
-                menu_page.mydemoapp_logo_visible()
-            )
-        )
-
-        print("Ended test_08_about_page transaction")
-
-        print("\nStarting test_09_faceID_page transaction")
-
-        execute_transaction(
-            mysql_logger,
-            "test_09_faceID_page",
-            lambda: (
-                menu_page.click_faceid(),
-                faceid_page.header_visible(),
-                faceid_page.click_faceid_back_icon(),
-                menu_page.mydemoapp_logo_visible()
-            )
-        )
-
-        print("Ended test_09_faceID_page transaction")
-
-        print("\nStarting test_10_login_page transaction")
-
-        execute_transaction(
-            mysql_logger,
-            "test_10_login_page",
-            lambda: (
-                menu_page.click_login(),
-                login_page.header_visible(),
-                login_page.enter_username("visual@example.com"),
-                login_page.enter_password("10203040"),
-                login_page.click_login_button(),
-                products_page.products_header_visible()
-            )
-        )
-
-        print("Ended test_10_login_page transaction")
-    
+def test_11_LoginPage(driver):
+    print("\nStarting test_11_LoginPage transaction")
+    menu_page = MenuPage(driver)
+    login_page = LoginPage(driver)
+    products_page = ProductsPage(driver)
+    menu_page.click_login()
+    login_page.header_visible()
+    login_page.enter_username("visual@example.com")
+    login_page.enter_password("10203040")
+    login_page.click_login_button()
+    products_page.products_header_visible()
