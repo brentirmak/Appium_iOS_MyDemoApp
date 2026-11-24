@@ -42,6 +42,7 @@ class Test_Order_GreenBackPack:
             "test_02_proceed_to_checkout",
             lambda: (
                 product_page.click_shopping_cart_icon(),
+                cart_page.one_greenbackpack_pretax_amount_visible(),
                 cart_page.header_visible(),
                 cart_page.click_proceed_to_checkout_button(),
                 login_page.header_visible(),
@@ -97,6 +98,7 @@ class Test_Order_GreenBackPack:
                 checkout_page.enter_creditcard_exp_date("03/28"),
                 checkout_page.enter_creditcard_security_code("123"),
                 checkout_page.click_review_order_button(),
+                checkout_page.one_backpack_posttax_amount_visible(),
                 checkout_page.review_your_order_header_visible(),
                 print("Review your order header is visible")
             )
