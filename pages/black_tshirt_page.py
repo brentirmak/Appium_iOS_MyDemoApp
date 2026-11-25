@@ -23,7 +23,12 @@ class BlackTShirtPage(BasePage):
 
     def cart_with_two_items_visible(self, timeout=30):
         print("Will confirm that the cart with two items is visible")
-        return self.is_visible(self.CART_WITH_TWO_ITEMS)
+
+        try:
+            self.driver.find_element(*self.CART_WITH_TWO_ITEMS)
+            return True
+        except Exception:
+            return False
 
     def click_add_to_cart_button(self, timeout=30):
         print("Will click on the Add To Cart button")
