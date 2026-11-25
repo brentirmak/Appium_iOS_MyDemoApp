@@ -35,7 +35,7 @@ def test_04_ProceedToCheckout(driver):
     cart_page = CartPage(driver)
     login_page = LoginPage(driver)
     product_page.click_shopping_cart_icon()
-    #assert cart_page.one_greenbackpack_pretax_amount_visible(), "Pretax amount for 1 green backpack is not visible"
+    assert cart_page.ten_onesies_pretax_amount_visible(), "Pretax amount for 10 onesies is not visible"
     assert cart_page.header_visible(), "Cart page header is not visible"
     cart_page.click_proceed_to_checkout_button()
     assert login_page.header_visible(), "Login page header is not visible"
