@@ -7,6 +7,7 @@ class BikeLightPage(BasePage):
 
     BIKE_LIGHT_HEADER = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="Sauce Labs Bike Light"]')
     PRODUCTS_LINK = (AppiumBy.XPATH,'//XCUIElementTypeImage[@name="BackButton Icons"]')
+    #CART_WITH_FIVE_ITEMS = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="5"]')
     CART_WITH_FIVE_ITEMS = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="5"]')
     ADD_TO_CART_BUTTON = (AppiumBy.XPATH,'//XCUIElementTypeStaticText[@name="Add To Cart"]')
     PLUS_ICON = (AppiumBy.ACCESSIBILITY_ID,'AddPlus Icons')
@@ -22,10 +23,15 @@ class BikeLightPage(BasePage):
             self.click(self.PLUS_ICON)
         print(f"Clicked on the plus icon {number_of_plus_clicks} times")
     
-    def cart_with_five_items_visible(self, timeout=30):
+    def cart_with_five_items_visible(self):
         print("Will confirm that the cart with five items is visible")
-        return self.is_visible(self.CART_WITH_FIVE_ITEMS)
-    
+
+        try:
+            self.driver.find_element(*self.CART_WITH_FIVE_ITEMS)
+            return True
+        except Exception:
+            return False
+
     def click_add_to_cart_button(self, timeout=30):
         print("Will click on the Add To Cart button")
         self.click(self.ADD_TO_CART_BUTTON)
@@ -36,7 +42,7 @@ class BikeLightPage(BasePage):
         self.click(self.PRODUCTS_LINK)
         print("Clicked on the products back icon")
 
-    def quantity_value(self, timeout=30):
+    def verify_quantity_value(self, timeout=30):
         print("Will return the quantity of the bike lights")
         element = WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(self.QUANTITY))
         # On iOS/Appium, quantity text often lives in `text`, `value`, or `label`
