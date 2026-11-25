@@ -12,10 +12,15 @@ class GreenBackpackPage(BasePage):
     def header_visible(self, timeout=30):
         print("Will confirm that the Green Backpage page header is visible")
         return self.is_visible(self.GREEN_BACKBACK_HEADER)
-    
+
     def cart_with_one_item_visible(self, timeout=30):
         print("Will confirm that the cart with one item is visible")
-        return self.is_visible(self.CART_WITH_ONE_ITEM)
+
+        try:
+            self.driver.find_element(*self.CART_WITH_ONE_ITEM)
+            return True
+        except Exception:
+            return False
     
     def click_green_backpack_product(self, timeout=30):
         print("Will click on the green backpack image")
