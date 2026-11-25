@@ -84,7 +84,7 @@ def test_08_PlaceOrder(driver):
     print("\nStarting test_08_PlaceOrder transaction")
     checkout_page = CheckoutPage(driver)
     checkout_page.click_place_order_button()
-    checkout_page.checkout_complete_header_visible()
+    assert checkout_page.checkout_complete_header_visible(), "Checkout complete header not visible"
     checkout_page.click_continue_shopping_button()
     print("Ended test_08_PlaceOrder transaction")
 
@@ -94,7 +94,7 @@ def test_09_CleanShoppingCart(driver):
     cart_page = CartPage(driver)
     product_page.click_shopping_cart_icon()
     cart_page.click_remove_item_button()
-    cart_page.no_items_in_cart_visible()
+    assert cart_page.no_items_in_cart_visible(), "No items in cart not visible"
     cart_page.click_go_shopping_button()
     print("Ended test_09_CleanShoppingCart transaction")
 
