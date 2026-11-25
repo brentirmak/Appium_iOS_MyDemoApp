@@ -24,7 +24,12 @@ class FleecePage(BasePage):
     
     def cart_with_fifteen_items_visible(self, timeout=30):
         print("Will confirm that the cart with fifteen items is visible")
-        return self.is_visible(self.CART_WITH_FIFTEEN_ITEMS)
+
+        try:
+            self.driver.find_element(*self.CART_WITH_FIFTEEN_ITEMS)
+            return True
+        except Exception:
+            return False
     
     def click_add_to_cart_button(self, timeout=30):
         print("Will click on the Add To Cart button")
