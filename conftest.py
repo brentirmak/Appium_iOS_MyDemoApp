@@ -61,7 +61,6 @@ CAPABILITIES = {
     "appium:deviceName": "iPhone 17 Pro",
     "appium:platformVersion": "26.5",
     "appium:udid": "89681D14-673F-445A-80AA-351832829080",
-    "appium:autoAcceptAlerts": True,
     "appium:noReset": False,
     "appium:fullReset": False,
     "appium:printPageSourceOnFindFailure": False,

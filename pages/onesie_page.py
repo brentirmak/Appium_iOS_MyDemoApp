@@ -24,7 +24,12 @@ class OnesiePage(BasePage):
     
     def cart_with_ten_items_visible(self, timeout=30):
         print("Will confirm that the cart with ten items is visible")
-        return self.is_visible(self.CART_WITH_TEN_ITEMS)
+
+        try:
+            self.driver.find_element(*self.CART_WITH_TEN_ITEMS)
+            return True
+        except Exception:
+            return False
     
     def click_add_to_cart_button(self, timeout=30):
         print("Will click on the Add To Cart button")
@@ -37,7 +42,7 @@ class OnesiePage(BasePage):
         print("Clicked on the products back icon")
 
     def quantity_value(self, timeout=30):
-        print("Will return the quantity of the bike lights")
+        print("Will return the quantity of the onesies")
         element = WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(self.QUANTITY))
         # On iOS/Appium, quantity text often lives in `text`, `value`, or `label`
         value = (element.text or element.get_attribute("value") or element.get_attribute("label")or "").strip()
